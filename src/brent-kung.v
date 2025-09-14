@@ -101,5 +101,6 @@ module tt_um_brent_kung (
 
    // List all unused inputs to prevent warnings
    wire _unused = &{ena, clk, rst_n, 1'b0, ui_in[7:4], uio_in[7:4]};
+   assign ui_out[7:5] = 3'b0;
 
 endmodule
