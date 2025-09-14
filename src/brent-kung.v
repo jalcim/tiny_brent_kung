@@ -80,7 +80,7 @@ endmodule
 
 `default_nettype none
 
-module brent_kung (
+module tt_um_brent_kung (
 		       input wire [7:0]	 ui_in,	  // Dedicated inputs
 		       output wire [7:0] uo_out,  // Dedicated outputs
 

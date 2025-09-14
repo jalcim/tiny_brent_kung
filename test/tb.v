@@ -41,7 +41,7 @@ module tb ();
    wire	VGND = 1'b0;
 `endif
 
-   brent_kung test_brent(
+   tt_um_brent_kung test_brent(
 			       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
 			       .VPWR(VPWR),
