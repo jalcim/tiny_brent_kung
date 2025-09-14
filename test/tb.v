@@ -14,7 +14,7 @@ module tb ();
 
 	$display("\t\ttime,\ta,\tb, \tout");
 	$monitor("%d \t%d \t%d \t%b\n", $time, ui_in[3:0], uio_in[3:0], uo_out[4:0]);
-
+/*
 	ui_in <= 0;
 	uio_in <= 0;
 	#100;
@@ -24,7 +24,7 @@ module tb ();
 
 	uio_in <= 1;
 	#100;
- 
+ */
      end
 
    // Wire up the inputs and outputs:
