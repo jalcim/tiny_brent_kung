@@ -41,7 +41,6 @@ module brent_kung_cin (out, A, B, Cin);
    input [3:0]	A, B;
    
    wire [2:0]	black_P, black_G;
-   wire [3:0]	RED_P, RED_G;
    wire [4:0]	C;
 
    wire	[3:0]	GREY_P, GREY_G;
