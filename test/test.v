@@ -1671,4 +1671,4 @@ module test_top;
 	clk <= 1;
 	#10;
      end
-endmodule; // test_top
+endmodule // test_top

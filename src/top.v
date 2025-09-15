@@ -25,10 +25,8 @@ module tt_um_top (
    // List all unused inputs to prevent warnings
    wire _unused = &{ena, uio_in[6],
 		    i_oh_p[5], i_oh_p[4], i_oh_n[5], i_oh_n[4],
-		    &{_ignore0}, &{_ignore1}, &{_ignore2}, &{_ignore3}};
+		    &{_ignore1}, &{_ignore2}, &{_ignore3}};
 
-   /* verilator lint_off UNUSEDSIGNAL */
-   wire [5:0] _ignore0;
    /* verilator lint_off UNUSEDSIGNAL */
    wire [5:0] _ignore1;
    /* verilator lint_off UNUSEDSIGNAL */
@@ -52,14 +50,14 @@ module tt_um_top (
 
    //output demux
    wire [23:0] demux_output_1, demux_output_2;
-   assign {_ignore0, _ignore1, i_oh_p, i_brent_A} = demux_output_1;
+   assign {cam_instr, _ignore1, i_oh_p, i_brent_A} = demux_output_1;
    assign {_ignore2, _ignore3, i_oh_n, i_brent_B} = demux_output_2;
 
 ////////////////////////////////////////////////////////////
 
    //input mux
    wire [31:0] i_mux;
-   assign i_mux = {8'b0, output_vga, o_oh, o_brent};
+   assign i_mux = {output_cam, output_vga, o_oh, o_brent};
 
    mux #(.WAY(4), .WIRE(8)) ouput_one (i_mux, ctrl, uo_out);
 
@@ -96,5 +94,18 @@ module tt_um_top (
 
    vga_example vga(output_vga, clk, rst_n);
    wire [7:0] output_vga;
+
+////////////////////////////////////////////////////////////
+
+   wire [5:0] cam_instr;
+   assign {cam_write, cam_addr} = cam_instr;
+
+   wire	      cam_write;
+   wire [4:0] cam_addr;
+   wire [7:0] cam_data;
+
+   assign cam_data = uio_in;
+   cam cam(output_cam, clk, ena, rst_n, cam_write, cam_addr, cam_data);
+   wire [4:0] output_cam;
 
 endmodule
