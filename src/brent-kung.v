@@ -41,6 +41,7 @@ module brent_kung_cin (output_S, input_A, input_B, Cin);
    input [5:0]	input_A, input_B;
 
    wire [3:0]	A, B;
+
    /* verilator lint_off UNUSEDSIGNAL */
    wire [1:0]	_ignored = {input_A[5] & input_B[5], input_A[4] & input_B[4]};
    assign A = input_A[3:0];

@@ -51,7 +51,10 @@ module vga_example(
   assign R = activevideo ? { noise_value[7], noise_value[2] } : 2'b00;
   assign G = activevideo ? { noise_value[6], noise_value[3] } : 2'b00;
   assign B = activevideo ? { noise_value[5], noise_value[4] } : 2'b00;
-  
+
+   /* verilator lint_off UNUSEDSIGNAL */
+   wire _ignored = noise_value[1] & noise_value[0] & clk;
+
   always @(posedge clk) begin
     if (~rst_n) begin
       tm <= 0;
@@ -79,14 +82,14 @@ module worley_noise_generator (
   reg [8:0] points_y[0:3];
 
 
-  assign points_x[0] = 100 + t;
-  assign points_y[0] = 100 - t;
-  assign points_x[1] = 300 - (t >> 1);
-  assign points_y[1] = 200 + (t >> 1);
-  assign points_x[2] = 500 + (t >> 1);
-  assign points_y[2] = 400 - (t >> 4);
-  assign points_x[3] = 100 - (t >> 3);
-  assign points_y[3] = 500 - (t >> 2);
+  assign points_x[0] = 9'd100 + t;
+  assign points_y[0] = 9'd100 - t;
+  assign points_x[1] = 9'd300 - (t >> 1);
+  assign points_y[1] = 9'd200 + (t >> 1);
+  assign points_x[2] = 9'd500 + (t >> 1);
+  assign points_y[2] = 9'd400 - (t >> 4);
+  assign points_x[3] = 9'd100 - (t >> 3);
+  assign points_y[3] = 9'd500 - (t >> 2);
 
   wire [15:0] distance1 = (x - points_x[0]) * (x - points_x[0]) + (y - points_y[0]) * (y - points_y[0]);
   wire [15:0] distance2 = (x - points_x[1]) * (x - points_x[1]) + (y - points_y[1]) * (y - points_y[1]);
@@ -102,6 +105,9 @@ module worley_noise_generator (
         (distance3 < distance4) ? distance3 : distance4;
 
   assign noise = ~min_dist[15:8];  // Scale down to 8-bit value
+
+  /* verilator lint_off UNUSEDSIGNAL */
+  wire _ignored = &{min_dist'[7:0]};
   
 endmodule
 
