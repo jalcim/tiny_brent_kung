@@ -11,20 +11,6 @@ module tb ();
      begin
 	$dumpfile("tb.vcd");
 	$dumpvars(0, tb);
-
-//	$display("\t\ttime,\ta,\tb, \tout");
-//	$monitor("%d \t%d \t%d \t%b\n", $time, ui_in[3:0], uio_in[3:0], uo_out[4:0]);
-/*
-	ui_in <= 0;
-	uio_in <= 0;
-	#100;
-
-	ui_in <= 3;
-	#100;
-
-	uio_in <= 1;
-	#100;
- */
      end
 
    // Wire up the inputs and outputs:
@@ -41,7 +27,7 @@ module tb ();
    wire	VGND = 1'b0;
 `endif
 
-   tt_um_brent_kung test_brent(
+   tt_um_top test_top(
 			       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
 			       .VPWR(VPWR),
