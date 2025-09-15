@@ -21,13 +21,13 @@ module cam(output [4:0]	out,
 
    always @(posedge clk or negedge rst_n)
      begin
-/*
+
 	if (~rst_n)
 	  begin
 	     ret <= 4'b0;
 	     found <= 0;
 	  end
-*/
+
 	if (write)
 	  mem[addr[SIZE_ADDR-1:0]] <= data;
 
