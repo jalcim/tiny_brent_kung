@@ -24,7 +24,7 @@ module cam(output [4:0]	out,
 
 	if (~rst_n)
 	  begin
-	     ret <= SIZE_ADDR'b0;
+	     ret <= 4'b0;
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       mem[i] <= 8'b0;
@@ -32,7 +32,7 @@ module cam(output [4:0]	out,
 
 	else if (write)
 	  begin
-	     ret <= SIZE_ADDR'b0;
+	     ret <= 4'b0;
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
@@ -45,7 +45,7 @@ module cam(output [4:0]	out,
 
 	else if (enable)
 	  begin
-	     ret <= SIZE_ADDR'b0;
+	     ret <= 4'b0;
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
