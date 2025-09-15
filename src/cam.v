@@ -41,6 +41,7 @@ module cam(output [4:0]	out,
 	if (~rst_n)
 	  begin
 	     found <= 0;
+	     /*
 	     mem[0] <= 8'h00;
 	     mem[1] <= 8'h00;
 	     mem[2] <= 8'h00;
@@ -57,6 +58,7 @@ module cam(output [4:0]	out,
 	     mem[13] <= 8'h00;
 	     mem[14] <= 8'h00;
 	     mem[15] <= 8'h00;
+	      */
 	  end
 
 	else if (write & enable)
