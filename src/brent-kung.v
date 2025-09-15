@@ -35,11 +35,22 @@ module stage_0(P, G, A, B);
 
 endmodule
 
-module brent_kung_cin (out, A, B, Cin);
-   output [4:0] out;
+module brent_kung_cin (output_S, input_A, input_B, Cin);
+   output [7:0] output_S;
    input	Cin;
-   input [3:0]	A, B;
-   
+   input [5:0]	input_A, input_B;
+
+   wire [3:0]	A, B;
+   /* verilator lint_off UNUSEDSIGNAL */
+   wire [1:0]	_ignored = {input_A[5] & input_B[5], input_A[4] & input_B[4]};
+   assign A = input_A[3:0];
+   assign B = input_B[3:0];
+
+   wire [4:0]	out;
+   assign output_S = {3'b0, out};
+
+////////////////////////////////////////////////////////////
+
    wire [2:0]	black_P, black_G;
    wire [4:0]	C;
 
@@ -71,13 +82,9 @@ module brent_kung_cin (out, A, B, Cin);
    assign out[4] = C[4];
 
 endmodule
-
 /*
- * Copyright (c) 2024 Your Name
- * SPDX-License-Identifier: Apache-2.0
- */
 
-`default_nettype none
+ `default_nettype none
 
 module tt_um_brent_kung (
 		       input wire [7:0]	 ui_in,	  // Dedicated inputs
@@ -103,3 +110,4 @@ module tt_um_brent_kung (
    assign uo_out[7:5] = 3'b0;
 
 endmodule
+*/
