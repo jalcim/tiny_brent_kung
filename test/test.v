@@ -1683,28 +1683,7 @@ module test_top;
 	#10;
 	rst_n <= 1;
 	
-	// Test 1: Initialize all CAM memory locations
-	$display("=== CAM: Initializing all memory ===");
-	
-	// Clear all 16 locations with unique values
-	ui_in <= 192 + 32 + 0; uio_in <= 8'h00; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 1; uio_in <= 8'h01; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 2; uio_in <= 8'h02; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 3; uio_in <= 8'h03; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 4; uio_in <= 8'h04; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 5; uio_in <= 8'h05; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 6; uio_in <= 8'h06; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 7; uio_in <= 8'h07; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 8; uio_in <= 8'h08; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 9; uio_in <= 8'h09; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 10; uio_in <= 8'h0A; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 11; uio_in <= 8'h0B; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 12; uio_in <= 8'h0C; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 13; uio_in <= 8'h0D; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 14; uio_in <= 8'h0E; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 15; uio_in <= 8'h0F; clk <= 1; #10; clk <= 0; #10;
-	
-	// Test 2: Write test values to specific locations
+	// Test 1: Write test values to specific locations
 	$display("=== CAM: Writing test values ===");
 	
 	// Write 0x55 to address 0
@@ -1727,7 +1706,7 @@ module test_top;
 	uio_in <= 8'h33;
 	clk <= 1; #10; clk <= 0; #10;
 	
-	// Test 3: Search for written values
+	// Test 2: Search for written values
 	$display("=== CAM: Searching values ===");
 	
 	// Search for 0x55 (should be found at address 0)
@@ -1782,6 +1761,18 @@ module test_top;
 	uio_in <= 8'hCC;
 	clk <= 1; #10; clk <= 0; #10;
 	$display("Search new 0xCC: uo_out=%b (expected: found=1, addr=1)", uo_out);
+	
+	// Test 5: Reset functionality
+	$display("=== CAM: Testing reset ===");
+	rst_n <= 0;
+	clk <= 1; #10; clk <= 0; #10;
+	rst_n <= 1;
+	
+	// After reset, search should not find previous values
+	ui_in <= 192 + 0;       // search mode
+	uio_in <= 8'hCC;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("After reset, search 0xCC: uo_out=%b (expected: found=0)", uo_out);
 	
 	#100;
 	
