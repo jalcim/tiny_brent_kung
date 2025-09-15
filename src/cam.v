@@ -28,7 +28,7 @@ module cam(output [4:0]	out,
 	     found <= 0;
 	  end
 
-	if (write)
+	else if (write)
 	  mem[addr[SIZE_ADDR-1:0]] <= data;
 
 	else if (enable)
