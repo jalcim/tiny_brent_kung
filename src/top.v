@@ -94,7 +94,7 @@ module tt_um_top (
 
 ////////////////////////////////////////////////////////////
 
-   vga_exemple vga(output_vga, clk, rst_n);
+   vga_example vga(output_vga, clk, rst_n);
    wire [7:0] output_vga;
 
 endmodule
