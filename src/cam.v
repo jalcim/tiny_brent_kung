@@ -8,7 +8,7 @@ module cam(output [4:0]	out,
 	   input [4:0]	addr,
 	   input [7:0]	data);
 
-   parameter NB_MEM = 16;
+   parameter NB_MEM = 12;
    parameter SIZE_ADDR = 4;
 
    reg [7:0] mem [0:NB_MEM-1];
