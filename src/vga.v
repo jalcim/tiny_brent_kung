@@ -92,7 +92,7 @@ module worley_noise_generator (
   assign points_y[3] = 16'd500 - (t[15:0] >> 2);
 
   wire [15:0] x;
-  assign x_large = {6'b0, i_x};
+  assign x = {6'b0, i_x};
 
   wire [15:0] distance1 = (x - points_x[0]) * (x - points_x[0]) + (y - points_y[0]) * (y - points_y[0]);
   wire [15:0] distance2 = (x - points_x[1]) * (x - points_x[1]) + (y - points_y[1]) * (y - points_y[1]);
