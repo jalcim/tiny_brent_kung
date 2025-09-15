@@ -30,56 +30,77 @@ module test_cam;
 	rst_n = 1;
 	#100;
 
-	// Test 1: Write values to all 16 locations
-	$display("=== Writing to all 16 locations ===");
+	// Test 1: Initialize all CAM memory locations
+	$display("=== Initializing all 16 locations ===");
 	write = 1;
-	enable = 0;
+	enable = 1;
 	
-	// Write unique values to each address
-	addr = 0; data = 8'h10; clk = 1; #50; clk = 0; #50;
-	addr = 1; data = 8'h11; clk = 1; #50; clk = 0; #50;
-	addr = 2; data = 8'h12; clk = 1; #50; clk = 0; #50;
-	addr = 3; data = 8'h13; clk = 1; #50; clk = 0; #50;
-	addr = 4; data = 8'h14; clk = 1; #50; clk = 0; #50;
-	addr = 5; data = 8'h15; clk = 1; #50; clk = 0; #50;
-	addr = 6; data = 8'h16; clk = 1; #50; clk = 0; #50;
-	addr = 7; data = 8'h17; clk = 1; #50; clk = 0; #50;
-	addr = 8; data = 8'h18; clk = 1; #50; clk = 0; #50;
-	addr = 9; data = 8'h19; clk = 1; #50; clk = 0; #50;
-	addr = 10; data = 8'h1A; clk = 1; #50; clk = 0; #50;
-	addr = 11; data = 8'h1B; clk = 1; #50; clk = 0; #50;
-	addr = 12; data = 8'h1C; clk = 1; #50; clk = 0; #50;
-	addr = 13; data = 8'h1D; clk = 1; #50; clk = 0; #50;
-	addr = 14; data = 8'h1E; clk = 1; #50; clk = 0; #50;
-	addr = 15; data = 8'h1F; clk = 1; #50; clk = 0; #50;
+	// Initialize all locations with known values first
+	addr = 0; data = 8'h00; clk = 1; #10; clk = 0; #10;
+	addr = 1; data = 8'h01; clk = 1; #10; clk = 0; #10;
+	addr = 2; data = 8'h02; clk = 1; #10; clk = 0; #10;
+	addr = 3; data = 8'h03; clk = 1; #10; clk = 0; #10;
+	addr = 4; data = 8'h04; clk = 1; #10; clk = 0; #10;
+	addr = 5; data = 8'h05; clk = 1; #10; clk = 0; #10;
+	addr = 6; data = 8'h06; clk = 1; #10; clk = 0; #10;
+	addr = 7; data = 8'h07; clk = 1; #10; clk = 0; #10;
+	addr = 8; data = 8'h08; clk = 1; #10; clk = 0; #10;
+	addr = 9; data = 8'h09; clk = 1; #10; clk = 0; #10;
+	addr = 10; data = 8'h0A; clk = 1; #10; clk = 0; #10;
+	addr = 11; data = 8'h0B; clk = 1; #10; clk = 0; #10;
+	addr = 12; data = 8'h0C; clk = 1; #10; clk = 0; #10;
+	addr = 13; data = 8'h0D; clk = 1; #10; clk = 0; #10;
+	addr = 14; data = 8'h0E; clk = 1; #10; clk = 0; #10;
+	addr = 15; data = 8'h0F; clk = 1; #10; clk = 0; #10;
+	
+	// Test 2: Write test values to specific locations  
+	$display("=== Writing test values ===");
+	
+	// Write unique test values to each address
+	addr = 0; data = 8'h10; clk = 1; #10; clk = 0; #10;
+	addr = 1; data = 8'h11; clk = 1; #10; clk = 0; #10;
+	addr = 2; data = 8'h12; clk = 1; #10; clk = 0; #10;
+	addr = 3; data = 8'h13; clk = 1; #10; clk = 0; #10;
+	addr = 4; data = 8'h14; clk = 1; #10; clk = 0; #10;
+	addr = 5; data = 8'h15; clk = 1; #10; clk = 0; #10;
+	addr = 6; data = 8'h16; clk = 1; #10; clk = 0; #10;
+	addr = 7; data = 8'h17; clk = 1; #10; clk = 0; #10;
+	addr = 8; data = 8'h18; clk = 1; #10; clk = 0; #10;
+	addr = 9; data = 8'h19; clk = 1; #10; clk = 0; #10;
+	addr = 10; data = 8'h1A; clk = 1; #10; clk = 0; #10;
+	addr = 11; data = 8'h1B; clk = 1; #10; clk = 0; #10;
+	addr = 12; data = 8'h1C; clk = 1; #10; clk = 0; #10;
+	addr = 13; data = 8'h1D; clk = 1; #10; clk = 0; #10;
+	addr = 14; data = 8'h1E; clk = 1; #10; clk = 0; #10;
+	addr = 15; data = 8'h1F; clk = 1; #10; clk = 0; #10;
 
-	// Test 2: Search for all written values
+	// Test 3: Search for all written values
 	$display("=== Searching for all written values ===");
 	write = 0;
 	enable = 1;
 	
-	data = 8'h10; clk = 1; #50; clk = 0; #50; $display("Search 0x10: found=%b, addr=%d", found, out);
-	data = 8'h11; clk = 1; #50; clk = 0; #50; $display("Search 0x11: found=%b, addr=%d", found, out);
-	data = 8'h12; clk = 1; #50; clk = 0; #50; $display("Search 0x12: found=%b, addr=%d", found, out);
-	data = 8'h13; clk = 1; #50; clk = 0; #50; $display("Search 0x13: found=%b, addr=%d", found, out);
-	data = 8'h14; clk = 1; #50; clk = 0; #50; $display("Search 0x14: found=%b, addr=%d", found, out);
-	data = 8'h15; clk = 1; #50; clk = 0; #50; $display("Search 0x15: found=%b, addr=%d", found, out);
-	data = 8'h16; clk = 1; #50; clk = 0; #50; $display("Search 0x16: found=%b, addr=%d", found, out);
-	data = 8'h17; clk = 1; #50; clk = 0; #50; $display("Search 0x17: found=%b, addr=%d", found, out);
-	data = 8'h18; clk = 1; #50; clk = 0; #50; $display("Search 0x18: found=%b, addr=%d", found, out);
-	data = 8'h19; clk = 1; #50; clk = 0; #50; $display("Search 0x19: found=%b, addr=%d", found, out);
-	data = 8'h1A; clk = 1; #50; clk = 0; #50; $display("Search 0x1A: found=%b, addr=%d", found, out);
-	data = 8'h1B; clk = 1; #50; clk = 0; #50; $display("Search 0x1B: found=%b, addr=%d", found, out);
-	data = 8'h1C; clk = 1; #50; clk = 0; #50; $display("Search 0x1C: found=%b, addr=%d", found, out);
-	data = 8'h1D; clk = 1; #50; clk = 0; #50; $display("Search 0x1D: found=%b, addr=%d", found, out);
-	data = 8'h1E; clk = 1; #50; clk = 0; #50; $display("Search 0x1E: found=%b, addr=%d", found, out);
-	data = 8'h1F; clk = 1; #50; clk = 0; #50; $display("Search 0x1F: found=%b, addr=%d", found, out);
+	data = 8'h10; clk = 1; #10; clk = 0; #10; $display("Search 0x10: found=%b, addr=%d", found, out);
+	data = 8'h11; clk = 1; #10; clk = 0; #10; $display("Search 0x11: found=%b, addr=%d", found, out);
+	data = 8'h12; clk = 1; #10; clk = 0; #10; $display("Search 0x12: found=%b, addr=%d", found, out);
+	data = 8'h13; clk = 1; #10; clk = 0; #10; $display("Search 0x13: found=%b, addr=%d", found, out);
+	data = 8'h14; clk = 1; #10; clk = 0; #10; $display("Search 0x14: found=%b, addr=%d", found, out);
+	data = 8'h15; clk = 1; #10; clk = 0; #10; $display("Search 0x15: found=%b, addr=%d", found, out);
+	data = 8'h16; clk = 1; #10; clk = 0; #10; $display("Search 0x16: found=%b, addr=%d", found, out);
+	data = 8'h17; clk = 1; #10; clk = 0; #10; $display("Search 0x17: found=%b, addr=%d", found, out);
+	data = 8'h18; clk = 1; #10; clk = 0; #10; $display("Search 0x18: found=%b, addr=%d", found, out);
+	data = 8'h19; clk = 1; #10; clk = 0; #10; $display("Search 0x19: found=%b, addr=%d", found, out);
+	data = 8'h1A; clk = 1; #10; clk = 0; #10; $display("Search 0x1A: found=%b, addr=%d", found, out);
+	data = 8'h1B; clk = 1; #10; clk = 0; #10; $display("Search 0x1B: found=%b, addr=%d", found, out);
+	data = 8'h1C; clk = 1; #10; clk = 0; #10; $display("Search 0x1C: found=%b, addr=%d", found, out);
+	data = 8'h1D; clk = 1; #10; clk = 0; #10; $display("Search 0x1D: found=%b, addr=%d", found, out);
+	data = 8'h1E; clk = 1; #10; clk = 0; #10; $display("Search 0x1E: found=%b, addr=%d", found, out);
+	data = 8'h1F; clk = 1; #10; clk = 0; #10; $display("Search 0x1F: found=%b, addr=%d", found, out);
 
 	// Test 3: Search for non-existent values
 	$display("=== Searching for non-existent values ===");
-	data = 8'h00; clk = 1; #50; clk = 0; #50; $display("Search 0x00: found=%b, addr=%d", found, out);
-	data = 8'hFF; clk = 1; #50; clk = 0; #50; $display("Search 0xFF: found=%b, addr=%d", found, out);
-	data = 8'h55; clk = 1; #50; clk = 0; #50; $display("Search 0x55: found=%b, addr=%d", found, out);
+	data = 8'h00; clk = 1; #10; clk = 0; #10; $display("Search 0x00: found=%b, addr=%d", found, out);
+	data = 8'hFF; clk = 1; #10; clk = 0; #10; $display("Search 0xFF: found=%b, addr=%d", found, out);
+	data = 8'h55; clk = 1; #10; clk = 0; #10; $display("Search 0x55: found=%b, addr=%d", found, out);
 
 	// Test 4: Write duplicate values and search
 	$display("=== Testing duplicate values ===");
@@ -87,24 +108,24 @@ module test_cam;
 	enable = 0;
 	
 	// Write same value to multiple locations
-	addr = 0; data = 8'hAA; clk = 1; #50; clk = 0; #50;
-	addr = 5; data = 8'hAA; clk = 1; #50; clk = 0; #50;
-	addr = 10; data = 8'hAA; clk = 1; #50; clk = 0; #50;
+	addr = 0; data = 8'hAA; clk = 1; #10; clk = 0; #10;
+	addr = 5; data = 8'hAA; clk = 1; #10; clk = 0; #10;
+	addr = 10; data = 8'hAA; clk = 1; #10; clk = 0; #10;
 	
 	// Search for duplicate value (should find first occurrence)
 	write = 0;
 	enable = 1;
-	data = 8'hAA; clk = 1; #50; clk = 0; #50; $display("Search 0xAA (duplicate): found=%b, addr=%d", found, out);
+	data = 8'hAA; clk = 1; #10; clk = 0; #10; $display("Search 0xAA (duplicate): found=%b, addr=%d", found, out);
 
 	// Test 5: Test reset functionality
 	$display("=== Testing reset ===");
 	rst_n = 0;
-	clk = 1; #50; clk = 0; #50;
+	clk = 1; #10; clk = 0; #10;
 	rst_n = 1;
 	
 	// After reset, search should not find previous values
 	enable = 1;
-	data = 8'hAA; clk = 1; #50; clk = 0; #50; $display("After reset, search 0xAA: found=%b, addr=%d", found, out);
+	data = 8'hAA; clk = 1; #10; clk = 0; #10; $display("After reset, search 0xAA: found=%b, addr=%d", found, out);
 
 	#100;
 	

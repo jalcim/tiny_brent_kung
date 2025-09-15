@@ -24,28 +24,33 @@ module cam(output [4:0]	out,
    generate
       for (i = 0; i < NB_MEM; i = i + 1)
 	begin : gen_match
-         assign match[i] = (mem[i] == data);
-         assign addr_out[i] = match[i] ? i[SIZE_ADDR-1:0] : {SIZE_ADDR{1'b0}};
-      end
+	   assign match[i] = (mem[i] == data);
+	   assign addr_out[i] = match[i] ? i[SIZE_ADDR-1:0] : {SIZE_ADDR{1'b0}};
+	end
    endgenerate
 
-   assign ret = addr_out[0] | addr_out[1] | addr_out[2] | addr_out[3] |
-                addr_out[4] | addr_out[5] | addr_out[6] | addr_out[7] |
-                addr_out[8] | addr_out[9] | addr_out[10] | addr_out[11] |
-                addr_out[12] | addr_out[13] | addr_out[14] | addr_out[15];
+   assign ret = write ? 4'b0 :
+		addr_out[0] | addr_out[1] | addr_out[2] | addr_out[3] |
+		addr_out[4] | addr_out[5] | addr_out[6] | addr_out[7] |
+		addr_out[8] | addr_out[9] | addr_out[10] | addr_out[11] |
+		addr_out[12] | addr_out[13] | addr_out[14] | addr_out[15];
 
    always @(posedge clk or negedge rst_n)
      begin
+
 	if (~rst_n)
 	  begin
 	     found <= 0;
 	  end
+
 	else if (write)
 	  mem[addr[SIZE_ADDR-1:0]] <= data;
+
 	else if (enable)
 	  begin
 	     found <= |match;
 	  end
+
      end
 
    assign out = {1'b0, ret};

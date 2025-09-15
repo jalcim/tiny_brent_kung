@@ -1670,5 +1670,120 @@ module test_top;
 	#10;
 	clk <= 1;
 	#10;
+
+	// CAM Tests
+	$display("cam\n");
+
+	// Reset sequence for CAM
+	rst_n <= 0;
+	ena <= 1;
+	clk <= 1;
+	#10;
+	clk <= 0;
+	#10;
+	rst_n <= 1;
+	
+	// Test 1: Initialize all CAM memory locations
+	$display("=== CAM: Initializing all memory ===");
+	
+	// Clear all 16 locations with unique values
+	ui_in <= 192 + 32 + 0; uio_in <= 8'h00; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 1; uio_in <= 8'h01; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 2; uio_in <= 8'h02; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 3; uio_in <= 8'h03; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 4; uio_in <= 8'h04; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 5; uio_in <= 8'h05; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 6; uio_in <= 8'h06; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 7; uio_in <= 8'h07; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 8; uio_in <= 8'h08; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 9; uio_in <= 8'h09; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 10; uio_in <= 8'h0A; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 11; uio_in <= 8'h0B; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 12; uio_in <= 8'h0C; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 13; uio_in <= 8'h0D; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 14; uio_in <= 8'h0E; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 15; uio_in <= 8'h0F; clk <= 1; #10; clk <= 0; #10;
+	
+	// Test 2: Write test values to specific locations
+	$display("=== CAM: Writing test values ===");
+	
+	// Write 0x55 to address 0
+	ui_in <= 192 + 32 + 0;  // 192 (CAM select) + 32 (write=1) + addr=0
+	uio_in <= 8'h55;        // data to write
+	clk <= 1; #10; clk <= 0; #10;
+	
+	// Write 0xAA to address 1
+	ui_in <= 192 + 32 + 1;  // addr=1
+	uio_in <= 8'hAA;
+	clk <= 1; #10; clk <= 0; #10;
+	
+	// Write 0x77 to address 2
+	ui_in <= 192 + 32 + 2;  // addr=2
+	uio_in <= 8'h77;
+	clk <= 1; #10; clk <= 0; #10;
+	
+	// Write 0x33 to address 15
+	ui_in <= 192 + 32 + 15; // addr=15
+	uio_in <= 8'h33;
+	clk <= 1; #10; clk <= 0; #10;
+	
+	// Test 3: Search for written values
+	$display("=== CAM: Searching values ===");
+	
+	// Search for 0x55 (should be found at address 0)
+	ui_in <= 192 + 0;       // 192 (CAM select) + write=0 (search)
+	uio_in <= 8'h55;        // data to search
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search 0x55: uo_out=%b (expected: found=1, addr=0)", uo_out);
+	
+	// Search for 0xAA (should be found at address 1)
+	uio_in <= 8'hAA;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search 0xAA: uo_out=%b (expected: found=1, addr=1)", uo_out);
+	
+	// Search for 0x77 (should be found at address 2)
+	uio_in <= 8'h77;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search 0x77: uo_out=%b (expected: found=1, addr=2)", uo_out);
+	
+	// Search for 0x33 (should be found at address 15)
+	uio_in <= 8'h33;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search 0x33: uo_out=%b (expected: found=1, addr=15)", uo_out);
+	
+	// Test 3: Search for non-existent value
+	$display("=== CAM: Searching non-existent values ===");
+	
+	// Search for 0xFF (should not be found)
+	uio_in <= 8'hFF;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search 0xFF: uo_out=%b (expected: found=0)", uo_out);
+	
+	// Search for 0x00 (should not be found)
+	uio_in <= 8'h00;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search 0x00: uo_out=%b (expected: found=0)", uo_out);
+	
+	// Test 4: Overwrite existing value
+	$display("=== CAM: Overwriting values ===");
+	
+	// Overwrite address 1 with 0xCC
+	ui_in <= 192 + 32 + 1;  // write to addr=1
+	uio_in <= 8'hCC;
+	clk <= 1; #10; clk <= 0; #10;
+	
+	// Search for old value 0xAA (should not be found)
+	ui_in <= 192 + 0;       // search mode
+	uio_in <= 8'hAA;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search old 0xAA: uo_out=%b (expected: found=0)", uo_out);
+	
+	// Search for new value 0xCC (should be found at address 1)
+	uio_in <= 8'hCC;
+	clk <= 1; #10; clk <= 0; #10;
+	$display("Search new 0xCC: uo_out=%b (expected: found=1, addr=1)", uo_out);
+	
+	#100;
+	
      end
 endmodule // test_top
