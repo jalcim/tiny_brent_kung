@@ -30,31 +30,10 @@ module test_cam;
 	rst_n = 1;
 	#100;
 
-	// Test 1: Initialize all CAM memory locations
-	$display("=== Initializing all 16 locations ===");
+	// Test 1: Write test values to specific locations  
+	$display("=== Writing test values ===");
 	write = 1;
 	enable = 1;
-	
-	// Initialize all locations with known values first
-	addr = 0; data = 8'h00; clk = 1; #10; clk = 0; #10;
-	addr = 1; data = 8'h01; clk = 1; #10; clk = 0; #10;
-	addr = 2; data = 8'h02; clk = 1; #10; clk = 0; #10;
-	addr = 3; data = 8'h03; clk = 1; #10; clk = 0; #10;
-	addr = 4; data = 8'h04; clk = 1; #10; clk = 0; #10;
-	addr = 5; data = 8'h05; clk = 1; #10; clk = 0; #10;
-	addr = 6; data = 8'h06; clk = 1; #10; clk = 0; #10;
-	addr = 7; data = 8'h07; clk = 1; #10; clk = 0; #10;
-	addr = 8; data = 8'h08; clk = 1; #10; clk = 0; #10;
-	addr = 9; data = 8'h09; clk = 1; #10; clk = 0; #10;
-	addr = 10; data = 8'h0A; clk = 1; #10; clk = 0; #10;
-	addr = 11; data = 8'h0B; clk = 1; #10; clk = 0; #10;
-	addr = 12; data = 8'h0C; clk = 1; #10; clk = 0; #10;
-	addr = 13; data = 8'h0D; clk = 1; #10; clk = 0; #10;
-	addr = 14; data = 8'h0E; clk = 1; #10; clk = 0; #10;
-	addr = 15; data = 8'h0F; clk = 1; #10; clk = 0; #10;
-	
-	// Test 2: Write test values to specific locations  
-	$display("=== Writing test values ===");
 	
 	// Write unique test values to each address
 	addr = 0; data = 8'h10; clk = 1; #10; clk = 0; #10;
@@ -74,7 +53,7 @@ module test_cam;
 	addr = 14; data = 8'h1E; clk = 1; #10; clk = 0; #10;
 	addr = 15; data = 8'h1F; clk = 1; #10; clk = 0; #10;
 
-	// Test 3: Search for all written values
+	// Test 2: Search for all written values
 	$display("=== Searching for all written values ===");
 	write = 0;
 	enable = 1;
@@ -102,7 +81,7 @@ module test_cam;
 	data = 8'hFF; clk = 1; #10; clk = 0; #10; $display("Search 0xFF: found=%b, addr=%d", found, out);
 	data = 8'h55; clk = 1; #10; clk = 0; #10; $display("Search 0x55: found=%b, addr=%d", found, out);
 
-	// Test 4: Write duplicate values and search
+	// Test 3: Write duplicate values and search
 	$display("=== Testing duplicate values ===");
 	write = 1;
 	enable = 0;
@@ -117,7 +96,7 @@ module test_cam;
 	enable = 1;
 	data = 8'hAA; clk = 1; #10; clk = 0; #10; $display("Search 0xAA (duplicate): found=%b, addr=%d", found, out);
 
-	// Test 5: Test reset functionality
+	// Test 4: Test reset functionality
 	$display("=== Testing reset ===");
 	rst_n = 0;
 	clk = 1; #10; clk = 0; #10;

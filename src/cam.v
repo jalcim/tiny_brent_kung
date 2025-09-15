@@ -41,9 +41,27 @@ module cam(output [4:0]	out,
 	if (~rst_n)
 	  begin
 	     found <= 0;
+	     /*
+	     mem[0] <= 8'h00;
+	     mem[1] <= 8'h00;
+	     mem[2] <= 8'h00;
+	     mem[3] <= 8'h00;
+	     mem[4] <= 8'h00;
+	     mem[5] <= 8'h00;
+	     mem[6] <= 8'h00;
+	     mem[7] <= 8'h00;
+	     mem[8] <= 8'h00;
+	     mem[9] <= 8'h00;
+	     mem[10] <= 8'h00;
+	     mem[11] <= 8'h00;
+	     mem[12] <= 8'h00;
+	     mem[13] <= 8'h00;
+	     mem[14] <= 8'h00;
+	     mem[15] <= 8'h00;
+	      */
 	  end
 
-	else if (write)
+	else if (write & enable)
 	  mem[addr[SIZE_ADDR-1:0]] <= data;
 
 	else if (enable)
