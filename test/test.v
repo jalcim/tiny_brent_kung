@@ -27,7 +27,7 @@ module test_top;
      begin
 	$dumpfile("signal_test_top.vcd");
         $dumpvars;
-        $monitor("time %d\t clk %b\t ui_in %b\t uio_in %b\t uo_out %b\n", $time, clk, ui_in, uio_in, uo_out);
+        $monitor("time %d\t clk %b\t ena %b\t ui_in %b\t uio_in %b\t uo_out %b\n", $time, clk, ena, ui_in, uio_in, uo_out);
 
 	// Initial setup
 	ui_in = 8'b0; uio_in = 8'b0; ena = 1'b0; clk = 1'b0; rst_n = 1'b0; #100;
@@ -75,53 +75,69 @@ module test_top;
 
 	// VGA - ultra compacted
 	$display("vga\n");
-	ena <= 1; rst_n <= 1; clk <= 1; ui_in <= 128;
-	repeat (10) begin clk <= 1; #10; clk <= 0; #10; end
+	ena <= 1; rst_n <= 1; clk <= 0; ui_in <= 128;
+	repeat (100) begin clk <= 1; #100; clk <= 0; #100; end
 
 	// CAM Tests - keep full functionality  
 	$display("cam\n");
-	rst_n <= 0; ena <= 1; clk <= 1; #10; clk <= 0; #10; rst_n <= 1;
+	rst_n <= 0; ena <= 1; clk <= 1; #100; clk <= 0; #100; rst_n <= 1;
 	
-	// Ensure ena stays active throughout all CAM tests
-	ena <= 1;
+	// Manual initialization of all CAM memory locations
+	ui_in <= 192 + 32 + 0; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 1; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 2; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 3; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 4; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 5; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 6; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 7; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 8; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 9; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 10; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 11; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 12; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 13; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 14; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 15; uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
 	
 	// Test 1: Write test values to specific locations
 	$display("=== CAM: Writing test values ===");
-	ui_in <= 192 + 32 + 0; uio_in <= 8'h55; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 1; uio_in <= 8'hAA; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 2; uio_in <= 8'h77; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 32 + 15; uio_in <= 8'h33; clk <= 1; #10; clk <= 0; #10;
+	ui_in <= 192 + 32 + 0; uio_in <= 8'h55; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 1; uio_in <= 8'hAA; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 2; uio_in <= 8'h77; clk <= 1; #100; clk <= 0; #100;
+	ui_in <= 192 + 32 + 15; uio_in <= 8'h33; clk <= 1; #100; clk <= 0; #100;
 	
 	// Test 2: Search for written values
-	$display("=== CAM: Searching values ===");
-	ui_in <= 192 + 0; uio_in <= 8'h55; clk <= 1; #10; clk <= 0; #10;
+	$display("=== CAM: Searching values ===\n");
+	ui_in <= 192 + 0; uio_in <= 8'h55; clk <= 1; #100; clk <= 0; #100;
 	$display("Search 0x55: uo_out=%b (expected: found=1, addr=0)", uo_out);
-	uio_in <= 8'hAA; clk <= 1; #10; clk <= 0; #10;
+	uio_in <= 8'hAA; clk <= 1; #100; clk <= 0; #100;
 	$display("Search 0xAA: uo_out=%b (expected: found=1, addr=1)", uo_out);
-	uio_in <= 8'h77; clk <= 1; #10; clk <= 0; #10;
+	uio_in <= 8'h77; clk <= 1; #100; clk <= 0; #100;
 	$display("Search 0x77: uo_out=%b (expected: found=1, addr=2)", uo_out);
-	uio_in <= 8'h33; clk <= 1; #10; clk <= 0; #10;
+	uio_in <= 8'h33; clk <= 1; #100; clk <= 0; #100;
 	$display("Search 0x33: uo_out=%b (expected: found=1, addr=15)", uo_out);
 	
 	// Test 3: Search for non-existent value
 	$display("=== CAM: Searching non-existent values ===");
-	uio_in <= 8'hFF; clk <= 1; #10; clk <= 0; #10;
+	uio_in <= 8'hFF; clk <= 1; #100; clk <= 0; #100;
 	$display("Search 0xFF: uo_out=%b (expected: found=0)", uo_out);
-	uio_in <= 8'h00; clk <= 1; #10; clk <= 0; #10;
+	uio_in <= 8'h00; clk <= 1; #100; clk <= 0; #100;
 	$display("Search 0x00: uo_out=%b (expected: found=0)", uo_out);
 	
 	// Test 4: Overwrite existing value
-	$display("=== CAM: Overwriting values ===");
-	ui_in <= 192 + 32 + 1; uio_in <= 8'hCC; clk <= 1; #10; clk <= 0; #10;
-	ui_in <= 192 + 0; uio_in <= 8'hAA; clk <= 1; #10; clk <= 0; #10;
+	$display("=== CAM: Overwriting values ===\n");
+	ui_in <= 192 + 32 + 1; uio_in <= 8'hCC; clk <= 0; #100; clk <= 1; #100; clk <= 0; #100;
+	$display("\ntest write %b\n", ui_in[5]);
+	ui_in <= 192 + 0; uio_in <= 8'hAA; clk <= 1; #100; clk <= 0; #100;
 	$display("Search old 0xAA: uo_out=%b (expected: found=0)", uo_out);
-	uio_in <= 8'hCC; clk <= 1; #10; clk <= 0; #10;
+	uio_in <= 8'hCC; clk <= 1; #100; clk <= 0; #100;
 	$display("Search new 0xCC: uo_out=%b (expected: found=1, addr=1)", uo_out);
 	
 	// Test 5: Reset functionality
 	$display("=== CAM: Testing reset ===");
-	rst_n <= 0; clk <= 1; #10; clk <= 0; #10; rst_n <= 1;
-	ui_in <= 192 + 0; uio_in <= 8'hCC; clk <= 1; #10; clk <= 0; #10;
+	rst_n <= 0; clk <= 1; #100; clk <= 0; #100; rst_n <= 1;
+	ui_in <= 192 + 0; uio_in <= 8'hCC; clk <= 1; #100; clk <= 0; #100;
 	$display("After reset, search 0xCC: uo_out=%b (expected: found=0)", uo_out);
 	
 	#100;
