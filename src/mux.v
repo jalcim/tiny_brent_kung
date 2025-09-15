@@ -18,6 +18,7 @@ module mux(input [SIZE_IN - 1:0] in,
    localparam SIZE_IN = WAY * WIRE;
 
    if (SIZE_CTRL == 1)
+     /* verilator lint_off GENUNNAMED */
      assign out = ctrl ? in[2 * WIRE - 1 : WIRE] : in[WIRE - 1 : 0];
    else
      begin
@@ -57,6 +58,7 @@ module demux(input [WIRE-1:0]	   in,
    supply0 padding;
 
    if (SIZE_CTRL == 1)
+     /* verilator lint_off GENUNNAMED */
      assign out = ctrl ? {in, {WIRE{padding}}} : {{WIRE{padding}}, in};
    else
      begin
