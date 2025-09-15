@@ -23,7 +23,7 @@ module tt_um_top (
    assign uio_oe  = 0;
 
    // List all unused inputs to prevent warnings
-   wire _unused = &{ena, uio_in[6], rst_n,
+   wire _unused = &{ena, uio_in[6],
 		    i_oh_p[5], i_oh_p[4], i_oh_n[5], i_oh_n[4],
 		    &{_ignore0}, &{_ignore1}, &{_ignore2}, &{_ignore3}};
 
@@ -59,7 +59,7 @@ module tt_um_top (
 
    //input mux
    wire [31:0] i_mux;
-   assign i_mux = {8'b0, 8'b0, o_oh, o_brent};
+   assign i_mux = {8'b0, output_vga, o_oh, o_brent};
 
    mux #(.WAY(4), .WIRE(8)) ouput_one (i_mux, ctrl, uo_out);
 
@@ -81,6 +81,8 @@ module tt_um_top (
 
 ////////////////////////////////////////////////////////////
 
+   //onehalf_latch
+   
    wire [5:0] i_oh_p, i_oh_n;
 
    onehalf_latch onehalt_latch(clk, i_oh_p[0], i_oh_n[0], o_oh[1], o_oh[0]);
@@ -92,15 +94,7 @@ module tt_um_top (
 
 ////////////////////////////////////////////////////////////
 
-/*
-   wire cond_vga;
-   assign cond_vga = ui_in[7] & ~(ui_in[6] | ui_in[5]);
-
-   assign ui_out = cond_vga ? output_vga;
-
    vga_exemple vga(output_vga, clk, rst_n);
    wire [7:0] output_vga;
 
- //   vga_example vga(ui_in, uo_out, uio_in, uio_out, uio_oe, ena, clk, rst_n);
-*/
 endmodule
