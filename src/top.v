@@ -110,6 +110,6 @@ module tt_um_top (
    wire	      found;
 
    wire [7:0] output_cam;
-   assign output_cam = {3'b0, found, output_addr};
+   assign output_cam = {2'b0, found, output_addr};
 
 endmodule

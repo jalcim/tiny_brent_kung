@@ -11,9 +11,12 @@ module cam(output [4:0]	out,
    parameter NB_MEM = 16;
 
    reg [7:0] mem [0:NB_MEM-1];
-   reg [4:0] ret;
+   reg [3:0] ret;
 
    integer i;
+
+   /* verilator lint_off UNUSEDSIGNAL */
+   wire	   _ignore = addr[4];
 
    always @(posedge clk or negedge rst_n)
      begin
@@ -32,10 +35,10 @@ module cam(output [4:0]	out,
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
-		 ret <= i[4:0];
+		 ret <= i[3:0];
 	     if (!(|ret))
 	       begin
-		  mem[addr] <= data;
+		  mem[addr[3:0]] <= data;
 	       end
 	  end
 
@@ -46,12 +49,12 @@ module cam(output [4:0]	out,
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
 		 begin
-		    ret <= i[4:0];
+		    ret <= i[3:0];
 		    found <= 1;
 		 end
 	  end
 
      end
 
-   assign out = ret;
+   assign out = {1'b0, ret};
 endmodule
