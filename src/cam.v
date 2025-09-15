@@ -34,8 +34,8 @@ module cam(output [4:0]	out,
 	  begin
 	     ret <= 4'b0;
 	     found <= 0;
-	     for (i = 0; i < NB_MEM; i = i + 1)
-	       if (mem[i] == data)
+//	     for (i = 0; i < NB_MEM; i = i + 1)
+//	       if (mem[i] == data)
 		 ret <= i[SIZE_ADDR-1:0];
 	     if (!(|ret))
 	       begin
