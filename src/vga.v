@@ -82,14 +82,14 @@ module worley_noise_generator (
   reg [15:0] points_y[0:3];
 
 
-  assign points_x[0] = 15'd100 + t;
-  assign points_y[0] = 15'd100 - t;
-  assign points_x[1] = 15'd300 - (t >> 1);
-  assign points_y[1] = 15'd200 + (t >> 1);
-  assign points_x[2] = 15'd500 + (t >> 1);
-  assign points_y[2] = 15'd400 - (t >> 4);
-  assign points_x[3] = 15'd100 - (t >> 3);
-  assign points_y[3] = 15'd500 - (t >> 2);
+  assign points_x[0] = 16'd100 + t;
+  assign points_y[0] = 16'd100 - t;
+  assign points_x[1] = 16'd300 - (t >> 1);
+  assign points_y[1] = 16'd200 + (t >> 1);
+  assign points_x[2] = 16'd500 + (t >> 1);
+  assign points_y[2] = 16'd400 - (t >> 4);
+  assign points_x[3] = 16'd100 - (t >> 3);
+  assign points_y[3] = 16'd500 - (t >> 2);
 
   wire [15:0] x;
   assign x_large = {6'b0, i_x};
