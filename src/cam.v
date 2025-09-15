@@ -26,7 +26,7 @@ module cam(output [4:0]	out,
 	     ret <= 5'b0;
 	     for (i = 0; i < 32; i = i + 1)
 	       if (mem[i] == data)
-		 ret <= i;
+		 ret <= i[4:0];
 	     if (!ret)
 	       mem[addr] <= data;
 	  end
@@ -36,7 +36,7 @@ module cam(output [4:0]	out,
 	     ret <= 5'b0;
 	     for (i = 0; i < 32; i = i + 1)
 	       if (mem[i] == data)
-		 ret <= i;
+		 ret <= i[4:0];
 	  end
 
      end
