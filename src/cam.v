@@ -26,8 +26,8 @@ module cam(output [4:0]	out,
 	  begin
 	     ret <= 4'b0;
 	     found <= 0;
-	     for (i = 0; i < NB_MEM; i = i + 1)
-	       mem[i] <= 8'b0;
+//	     for (i = 0; i < NB_MEM; i = i + 1)
+//	       mem[i] <= 8'b0;
 	  end
 
 	else if (write)
