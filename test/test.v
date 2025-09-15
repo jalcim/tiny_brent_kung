@@ -128,7 +128,6 @@ module test_top;
 	// Test 4: Overwrite existing value
 	$display("=== CAM: Overwriting values ===\n");
 	ui_in <= 192 + 32 + 1; uio_in <= 8'hCC; clk <= 0; #100; clk <= 1; #100; clk <= 0; #100;
-	$display("\ntest write %b\n", ui_in[5]);
 	ui_in <= 192 + 0; uio_in <= 8'hAA; clk <= 1; #100; clk <= 0; #100;
 	$display("Search old 0xAA: uo_out=%b (expected: found=0)", uo_out);
 	uio_in <= 8'hCC; clk <= 1; #100; clk <= 0; #100;
