@@ -42,7 +42,7 @@ module vga_example(
   
   worley_noise_generator worley_inst (
       .clk(clk),
-      .x(x_px),
+      .i_x(x_px),
       .y(y_px),
       .t(tm),
       .noise(noise_value)
@@ -71,25 +71,28 @@ endmodule
 
 module worley_noise_generator (
     input wire clk,
-    input wire [9:0] x,
+    input wire [9:0] i_x,
     input wire [9:0] y,
     input wire [19:0] t,
     output reg [7:0] noise
 );
 
   // Define a small fixed grid of points
-  reg [8:0] points_x[0:3];
-  reg [8:0] points_y[0:3];
+  reg [15:0] points_x[0:3];
+  reg [15:0] points_y[0:3];
 
 
-  assign points_x[0] = 9'd100 + t;
-  assign points_y[0] = 9'd100 - t;
-  assign points_x[1] = 9'd300 - (t >> 1);
-  assign points_y[1] = 9'd200 + (t >> 1);
-  assign points_x[2] = 9'd500 + (t >> 1);
-  assign points_y[2] = 9'd400 - (t >> 4);
-  assign points_x[3] = 9'd100 - (t >> 3);
-  assign points_y[3] = 9'd500 - (t >> 2);
+  assign points_x[0] = 15'd100 + t;
+  assign points_y[0] = 15'd100 - t;
+  assign points_x[1] = 15'd300 - (t >> 1);
+  assign points_y[1] = 15'd200 + (t >> 1);
+  assign points_x[2] = 15'd500 + (t >> 1);
+  assign points_y[2] = 15'd400 - (t >> 4);
+  assign points_x[3] = 15'd100 - (t >> 3);
+  assign points_y[3] = 15'd500 - (t >> 2);
+
+  wire [15:0] x;
+  assign x_large = {6'b0, i_x};
 
   wire [15:0] distance1 = (x - points_x[0]) * (x - points_x[0]) + (y - points_y[0]) * (y - points_y[0]);
   wire [15:0] distance2 = (x - points_x[1]) * (x - points_x[1]) + (y - points_y[1]) * (y - points_y[1]);
