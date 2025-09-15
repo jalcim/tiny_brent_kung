@@ -9,9 +9,10 @@ module cam(output [4:0]	out,
 	   input [7:0]	data);
 
    parameter NB_MEM = 16;
+   parameter SIZE_ADDR = 4;
 
    reg [7:0] mem [0:NB_MEM-1];
-   reg [3:0] ret;
+   reg [SIZE_ADDR-1:0] ret;
 
    integer i;
 
@@ -23,7 +24,7 @@ module cam(output [4:0]	out,
 
 	if (~rst_n)
 	  begin
-	     ret <= 5'b0;
+	     ret <= SIZE_ADDR'b0;
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       mem[i] <= 8'b0;
@@ -31,25 +32,25 @@ module cam(output [4:0]	out,
 
 	else if (write)
 	  begin
-	     ret <= 5'b0;
+	     ret <= SIZE_ADDR'b0;
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
-		 ret <= i[3:0];
+		 ret <= i[SIZE_ADDR-1:0];
 	     if (!(|ret))
 	       begin
-		  mem[addr[3:0]] <= data;
+		  mem[addr[SIZE_ADDR-1:0]] <= data;
 	       end
 	  end
 
 	else if (enable)
 	  begin
-	     ret <= 5'b0;
+	     ret <= SIZE_ADDR'b0;
 	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
 		 begin
-		    ret <= i[3:0];
+		    ret <= i[SIZE_ADDR-1:0];
 		    found <= 1;
 		 end
 	  end
