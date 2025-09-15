@@ -1,4 +1,5 @@
 module cam(output [4:0]	out,
+//	   output	found,
 
 	   input	clk,
 	   input	enable,
@@ -7,8 +8,12 @@ module cam(output [4:0]	out,
 	   input [4:0]	addr,
 	   input [7:0]	data);
 
-   reg [7:0] mem [0:31];
-   reg [4:0] ret = 5'b11111;
+   parameter NB_MEM = 16;
+
+   reg [7:0] mem [0:NB_MEM-1];
+   reg [4:0] ret;
+//   reg	     found;
+
    integer i;
 
    always @(posedge clk or negedge rst_n)
@@ -17,24 +22,24 @@ module cam(output [4:0]	out,
 	if (~rst_n)
 	  begin
 	     ret <= 5'b0;
-	     for (i = 0; i < 32; i = i + 1)
+	     for (i = 0; i < NB_MEM; i = i + 1)
 	       mem[i] <= 8'b0;
 	  end
 
 	else if (write)
 	  begin
 	     ret <= 5'b0;
-	     for (i = 0; i < 32; i = i + 1)
+	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
 		 ret <= i[4:0];
-	     if (!ret)
+	     if (!(|ret))
 	       mem[addr] <= data;
 	  end
 
 	else if (enable)
 	  begin
 	     ret <= 5'b0;
-	     for (i = 0; i < 32; i = i + 1)
+	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
 		 ret <= i[4:0];
 	  end
