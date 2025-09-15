@@ -12,19 +12,34 @@ module cam(output [4:0]	out,
    parameter SIZE_ADDR = 4;
 
    reg [7:0] mem [0:NB_MEM-1];
-   reg [SIZE_ADDR-1:0] ret;
-
-   integer i;
+   wire [SIZE_ADDR-1:0] ret;
 
    /* verilator lint_off UNUSEDSIGNAL */
    wire	   _ignore = addr[4];
+
+   wire [NB_MEM-1:0] match;
+   wire [SIZE_ADDR-1:0] addr_out [0:NB_MEM-1];
+
+   genvar i;
+   generate
+      for (i = 0; i < NB_MEM; i = i + 1)
+	begin : gen_match
+	   assign match[i] = (mem[i] == data);
+	   assign addr_out[i] = match[i] ? i[SIZE_ADDR-1:0] : {SIZE_ADDR{1'b0}};
+	end
+   endgenerate
+
+   assign ret = write ? 4'b0 :
+		addr_out[0] | addr_out[1] | addr_out[2] | addr_out[3] |
+		addr_out[4] | addr_out[5] | addr_out[6] | addr_out[7] |
+		addr_out[8] | addr_out[9] | addr_out[10] | addr_out[11] |
+		addr_out[12] | addr_out[13] | addr_out[14] | addr_out[15];
 
    always @(posedge clk or negedge rst_n)
      begin
 
 	if (~rst_n)
 	  begin
-	     ret <= 4'b0;
 	     found <= 0;
 	  end
 
@@ -33,14 +48,7 @@ module cam(output [4:0]	out,
 
 	else if (enable)
 	  begin
-	     ret <= 4'b0;
-	     found <= 0;
-	     for (i = 0; i < NB_MEM; i = i + 1)
-	       if (mem[i] == data)
-		 begin
-		    ret <= i[SIZE_ADDR-1:0];
-		    found <= 1;
-		 end
+	     found <= |match;
 	  end
 
      end
