@@ -23,9 +23,10 @@ module tt_um_top (
    assign uio_oe  = 0;
 
    // List all unused inputs to prevent warnings
-   wire _unused = &{ena};
+   wire _unused = &{ena, uio_in[6], rst_n, i_oh_p[5], i_oh_p[4], i_oh_n[5], i_oh_n[4]};
 
    wire [5:0] _ignore;
+   assign _ignore = 6'b0;
 
 ////////////////////////////////////////////////////////////
 

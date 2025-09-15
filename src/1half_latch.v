@@ -32,8 +32,8 @@ module onehalf_latch(input  clk,
 
    always @(posedge clk)
      begin 
-	reg_p = in_p;
-	reg_n = in_n;
+	reg_p <= in_p;
+	reg_n <= in_n;
      end
 
    assign forbidden = ~(reg_p & reg_n);
