@@ -23,10 +23,18 @@ module tt_um_top (
    assign uio_oe  = 0;
 
    // List all unused inputs to prevent warnings
-   wire _unused = &{ena, uio_in[6], rst_n, i_oh_p[5], i_oh_p[4], i_oh_n[5], i_oh_n[4]};
+   wire _unused = &{ena, uio_in[6], rst_n,
+		    i_oh_p[5], i_oh_p[4], i_oh_n[5], i_oh_n[4],
+		    &{_ignore0}, &{_ignore1}, &{_ignore2}, &{_ignore3}};
 
    /* verilator lint_off UNUSEDSIGNAL */
-   wire [5:0] _ignore;
+   wire [5:0] _ignore0;
+   /* verilator lint_off UNUSEDSIGNAL */
+   wire [5:0] _ignore1;
+   /* verilator lint_off UNUSEDSIGNAL */
+   wire [5:0] _ignore2;
+   /* verilator lint_off UNUSEDSIGNAL */
+   wire [5:0] _ignore3;
 
 ////////////////////////////////////////////////////////////
 
@@ -44,8 +52,8 @@ module tt_um_top (
 
    //output demux
    wire [23:0] demux_output_1, demux_output_2;
-   assign {_ignore, _ignore, i_oh_p, i_brent_A} = demux_output_1;
-   assign {_ignore, _ignore, i_oh_n, i_brent_B} = demux_output_2;
+   assign {_ignore0, _ignore1, i_oh_p, i_brent_A} = demux_output_1;
+   assign {_ignore2, _ignore3, i_oh_n, i_brent_B} = demux_output_2;
 
 ////////////////////////////////////////////////////////////
 
