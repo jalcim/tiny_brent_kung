@@ -105,11 +105,11 @@ module tt_um_top (
    wire [7:0] cam_data;
 
    assign cam_data = uio_in;
-   cam cam(output_addr, clk, ena, rst_n, cam_write, cam_addr, cam_data);
+   cam cam(output_addr, found, clk, ena, rst_n, cam_write, cam_addr, cam_data);
    wire [4:0] output_addr;
-//   wire	      found;
+   wire	      found;
 
    wire [7:0] output_cam;
-   assign output_cam = {4'b0, output_addr};
+   assign output_cam = {3'b0, found, output_addr};
 
 endmodule

@@ -1,5 +1,5 @@
 module cam(output [4:0]	out,
-//	   output	found,
+	   output reg	found,
 
 	   input	clk,
 	   input	enable,
@@ -12,7 +12,6 @@ module cam(output [4:0]	out,
 
    reg [7:0] mem [0:NB_MEM-1];
    reg [4:0] ret;
-//   reg	     found;
 
    integer i;
 
@@ -22,6 +21,7 @@ module cam(output [4:0]	out,
 	if (~rst_n)
 	  begin
 	     ret <= 5'b0;
+	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       mem[i] <= 8'b0;
 	  end
@@ -29,19 +29,26 @@ module cam(output [4:0]	out,
 	else if (write)
 	  begin
 	     ret <= 5'b0;
+	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
 		 ret <= i[4:0];
 	     if (!(|ret))
-	       mem[addr] <= data;
+	       begin
+		  mem[addr] <= data;
+	       end
 	  end
 
 	else if (enable)
 	  begin
 	     ret <= 5'b0;
+	     found <= 0;
 	     for (i = 0; i < NB_MEM; i = i + 1)
 	       if (mem[i] == data)
-		 ret <= i[4:0];
+		 begin
+		    ret <= i[4:0];
+		    found <= 1;
+		 end
 	  end
 
      end
