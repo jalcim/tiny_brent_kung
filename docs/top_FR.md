@@ -167,17 +167,6 @@ brent_kung_cin brent_inst(
 );
 ```
 
-## Détails d'Implémentation
-
-### Utilisation des Ressources
-- **Portes Logiques** : ~200 cellules standard
-- **Mémoire** : 16x8 bit RAM (module CAM)
-- **Fréquence d'Horloge** : Jusqu'à 66MHz
-- **Consommation** : Optimisée pour faible consommation
-
-### Architecture
-- Période d'horloge : 15ns (66MHz)
-- Chemin critique : À travers la logique du multiplexeur
 
 ## Utilisation
 

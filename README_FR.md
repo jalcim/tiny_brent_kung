@@ -99,17 +99,6 @@ flowchart LR
 
 Voir la documentation de chaque module pour les assignations spécifiques.
 
-## 📊 Spécifications
-
-```
-┌─────────────────┬─────────────────────────┐
-│ FRÉQUENCE       │ 66 MHz                  │
-│ ENTRÉES DONNÉES │ 14 bits disponibles     │
-│ CONTRÔLE        │ 2 bits (multiplexage)   │
-│ SORTIES         │ 8 bits                  │
-│ MODULES         │ 4 unités spécialisées  │
-└─────────────────┴─────────────────────────┘
-```
 
 ## 🏗️ Architecture du Projet
 

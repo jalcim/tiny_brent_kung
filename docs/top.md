@@ -167,17 +167,6 @@ brent_kung_cin brent_inst(
 );
 ```
 
-## Implementation Details
-
-### Resource Usage
-- **Logic Gates**: ~200 standard cells
-- **Memory**: 16x8 bit RAM (CAM module)
-- **Clock Frequency**: Up to 66MHz
-- **Power**: Optimized for low power consumption
-
-### Architecture
-- Clock period: 15ns (66MHz)
-- Critical path: Through multiplexer logic
 
 ## Usage
 

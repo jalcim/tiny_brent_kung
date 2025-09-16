@@ -40,57 +40,22 @@
                  uo_out[4:0] = 10001 (17)
 ```
 
-## ⚡ Performance
-
-```
-┌──────────────┬─────────────┬─────────────┐
-│   MÉTRIQUE   │ RIPPLE CARRY│ BRENT-KUNG  │
-├──────────────┼─────────────┼─────────────┤
-│ 🕐 Vitesse   │ 4 délais    │ 3 délais    │
-│ 📐 Taille    │ Petit       │ Moyen       │
-│ 🔋 Conso     │ Faible      │ Moyenne     │
-└──────────────┴─────────────┴─────────────┘
-```
 
 ## 🏗️ Fonctionnement
 
-```mermaid
-flowchart TD
-    subgraph Stage0 ["Étape 0: Génération P,G"]
-        A3B3["A₃B₃"] --> G3["G"]
-        A2B2["A₂B₂"] --> G2["G"]
-        A1B1["A₁B₁"] --> G1["G"]
-        A0B0["A₀B₀"] --> G0["G"]
-    end
-    
-    subgraph Stage1 ["Étape 1: Cellules noires"]
-        G3 --> B31["B"]
-        G2 --> B31
-        G2 --> B21["B"]
-        G1 --> B21
-        G1 --> B10["B"]
-        G0 --> B10
-    end
-    
-    subgraph Stage2 ["Étape 2: Plus de noires"]
-        B31 --> B32["B"]
-        B21 --> B32
-        B21 --> G2S2["G"]
-    end
-    
-    subgraph Stage3 ["Étape 3: Retenue finale"]
-        B32 --> GFINAL["G"]
-        G2S2 --> GFINAL
-    end
-    
-    GFINAL --> CARRY["Sortie Retenue Finale"]
-```
-
-**G** = Génération, **B** = Noire (combinaison)
+### Structure de l'Algorithme
+L'algorithme Brent-Kung utilise une structure arborescente pour calculer les retenues en parallèle sur plusieurs étapes :
 
 ![Étapes Algorithme Brent-Kung](step0_4.png)
 
+*Calcul de retenues parallèles en 4 étapes montrant la propagation dans la structure arborescente*
+
+### Implémentation 4-bit
+Cette implémentation spécifique montre la disposition complète du circuit pour l'addition 4-bit :
+
 ![Implémentation 4-bit](brent4.png)
+
+*Circuit complet de l'additionneur Brent-Kung 4-bit avec toutes les étapes et interconnexions*
 
 ## 📂 Source
 - Fichier: `src/brent-kung.v:38-85`

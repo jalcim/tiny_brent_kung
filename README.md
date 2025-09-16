@@ -99,17 +99,6 @@ flowchart LR
 
 See individual module documentation for specific pin assignments.
 
-## 📊 Specifications
-
-```
-┌─────────────────┬─────────────────────────┐
-│ FREQUENCY       │ 66 MHz                  │
-│ DATA INPUTS     │ 14 bits available       │
-│ CONTROL         │ 2 bits (multiplexing)   │
-│ OUTPUTS         │ 8 bits                  │
-│ MODULES         │ 4 specialized units     │
-└─────────────────┴─────────────────────────┘
-```
 
 ## 🏗️ Project Architecture
 
