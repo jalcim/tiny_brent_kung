@@ -1,24 +1,22 @@
-![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+# 🔀 Unité de Traitement Numérique Multiplexée
 
-# 🔀 Multiplexed Digital Processing Unit
+> **Un système numérique multiplexé avec 4 unités de traitement spécialisées**
 
-> **A multiplexed digital system with 4 specialized processing units**
-
-🇫🇷 [Version française](README_FR.md)
+🇺🇸 [English version](README.md)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    TinyTapeout Interface                   │
+│                    Interface TinyTapeout                   │
 ├─────────────────────────┬───────────────────────────────────┤
 │ ui_in[7:6] (CTRL)      │ uio_in[7:0] + ui_in[5:0] (DATA)  │
 │        ↓               │                ↓                  │
 │  ┌─────────────┐       │     ┌─────────────────┐           │
-│  │ MUX CONTROL │───────┼────→│   DEMULTIPLEXER │           │
+│  │ CONTRÔLE MUX│───────┼────→│  DÉMULTIPLEXEUR │           │
 │  └─────────────┘       │     └─────────────────┘           │
 │                        │              │                    │
 │                        │              ↓                    │
 │  ┌─────────────────────┼──────────────────────────────────┐ │
-│  │                     │            4 MODULES             │ │
+│  │                     │           4 MODULES              │ │
 │  │  00: CAM           01: VGA       10: 1HALF    11: BRENT │ │
 │  │ ┌─────┐           ┌─────┐       ┌─────┐      ┌─────┐    │ │
 │  │ │ 📋  │           │ 📺  │       │ 🎵  │      │ ➕  │    │ │
@@ -27,95 +25,95 @@
 │  └─────────────────────┼──────────────────────────────────┘ │
 │                        │              ↑                    │
 │                        │     ┌─────────────────┐           │
-│                        │     │   MULTIPLEXER   │           │
+│                        │     │  MULTIPLEXEUR   │           │
 │                        │     └─────────────────┘           │
 │                        │              ↓                    │
 │                        │        uo_out[7:0]                │
 └─────────────────────────┴───────────────────────────────────┘
 ```
 
-## 📋 Module Documentation
+## 📋 Documentation des Modules
 
 | Module | Description | Documentation |
 |--------|-------------|---------------|
-| 🔀 **TOP** | Main controller and multiplexing | [📖 top.md](docs/top.md) |
-| ➕ **BRENT-KUNG** | Optimized parallel adder | [📖 brent-kung.md](docs/brent-kung.md) |
-| 📺 **VGA** | Video signal generator | [📖 vga.md](docs/vga.md) |
-| 🎵 **1HALF** | Sigma-delta audio latch | [📖 1half_latch.md](docs/1half_latch.md) |
-| 📋 **CAM** | Content-addressable memory | [📖 cam.md](docs/cam.md) |
+| 🔀 **TOP** | Contrôleur principal et multiplexage | [📖 top_FR.md](docs/top_FR.md) |
+| ➕ **BRENT-KUNG** | Additionneur parallèle optimisé | [📖 brent-kung_FR.md](docs/brent-kung_FR.md) |
+| 📺 **VGA** | Générateur de signaux vidéo | [📖 vga_FR.md](docs/vga_FR.md) |
+| 🎵 **1HALF** | Latch sigma-delta audio | [📖 1half_latch_FR.md](docs/1half_latch_FR.md) |
+| 📋 **CAM** | Mémoire associative | [📖 cam_FR.md](docs/cam_FR.md) |
 
-## 🎛️ Multiplexing Usage
+## 🎛️ Utilisation du Multiplexage
 
-### Module Selection
+### Sélection des Modules
 ```
 ui_in[7:6] = CTRL[1:0]
 ┌─────┬─────────────┬─────────────────────┐
-│CTRL │   MODULE    │     FUNCTION        │
+│CTRL │   MODULE    │     FONCTION        │
 ├─────┼─────────────┼─────────────────────┤
-│ 00  │ 📋 CAM      │ Associative memory  │
-│ 01  │ 📺 VGA      │ Video generator     │
-│ 10  │ 🎵 1HALF    │ Audio latch         │
-│ 11  │ ➕ BRENT-K  │ Adder               │
+│ 00  │ 📋 CAM      │ Mémoire associative │
+│ 01  │ 📺 VGA      │ Générateur vidéo    │
+│ 10  │ 🎵 1HALF    │ Latch audio         │
+│ 11  │ ➕ BRENT-K  │ Additionneur        │
 └─────┴─────────────┴─────────────────────┘
 ```
 
-### Data Routing
+### Routage des Données
 ```
 ┌──────────────┬─────────────────┬─────────────────┐
-│   INPUTS     │   MULTIPLEXING  │    OUTPUTS      │
+│   ENTRÉES    │   MULTIPLEXAGE  │    SORTIES      │
 ├──────────────┼─────────────────┼─────────────────┤
 │ ui_in[5:0]   │        │        │                 │
 │              │   DEMUX 4:1     │   uo_out[7:0]   │
 │ uio_in[7:0]  │        │        │                 │
 │              │        ↓        │        ↑        │
-│ clk, rst_n   │   ACTIVE MODULE │    MUX 4:1      │
+│ clk, rst_n   │   MODULE ACTIF  │    MUX 4:1      │
 └──────────────┴─────────────────┴─────────────────┘
 ```
 
-## 🔌 Pin Usage
+## 🔌 Utilisation des Broches
 
-- **`ui_in[7:6]`** : Module selection (2 bits reserved for multiplexing)
-- **`ui_in[5:0]` + `uio_in[7:0]`** : Data inputs (14 bits available for modules)
-- **`uo_out[7:0]`** : Results from active module
+- **`ui_in[7:6]`** : Sélection de module (2 bits réservés au multiplexage)
+- **`ui_in[5:0]` + `uio_in[7:0]`** : Données d'entrée (14 bits disponibles pour les modules)
+- **`uo_out[7:0]`** : Résultats du module actif
 
-See individual module documentation for specific pin assignments.
+Voir la documentation de chaque module pour les assignations spécifiques.
 
-## 📊 Specifications
+## 📊 Spécifications
 
 ```
 ┌─────────────────┬─────────────────────────┐
-│ FREQUENCY       │ 66 MHz                  │
-│ DATA INPUTS     │ 14 bits available       │
-│ CONTROL         │ 2 bits (multiplexing)   │
-│ OUTPUTS         │ 8 bits                  │
-│ MODULES         │ 4 specialized units     │
+│ FRÉQUENCE       │ 66 MHz                  │
+│ ENTRÉES DONNÉES │ 14 bits disponibles     │
+│ CONTRÔLE        │ 2 bits (multiplexage)   │
+│ SORTIES         │ 8 bits                  │
+│ MODULES         │ 4 unités spécialisées  │
 └─────────────────┴─────────────────────────┘
 ```
 
-## 🏗️ Project Architecture
+## 🏗️ Architecture du Projet
 
 ```
 📁 src/
-├── 🔧 config.json      # TinyTapeout configuration
-├── 🔀 top.v           # Main module + MUX/DEMUX
-├── 🔄 mux.v           # Multiplexing utilities
-├── ➕ brent-kung.v    # Brent-Kung adder
-├── 🎵 1half_latch.v   # Sigma-delta 1.5bit latch
-├── 📺 vga.v           # VGA generator + H/V sync
-└── 📋 cam.v           # Content-Addressable Memory
+├── 🔧 config.json      # Configuration TinyTapeout
+├── 🔀 top.v           # Module principal + MUX/DEMUX
+├── 🔄 mux.v           # Utilitaires de multiplexage
+├── ➕ brent-kung.v    # Additionneur Brent-Kung
+├── 🎵 1half_latch.v   # Latch sigma-delta 1.5bit
+├── 📺 vga.v           # Générateur VGA + sync H/V
+└── 📋 cam.v           # Mémoire Content-Addressable
 
 📁 docs/
-├── 📖 top.md          # Main module documentation
-├── 📖 brent-kung.md   # Adder documentation
-├── 📖 vga.md          # VGA documentation
-├── 📖 1half_latch.md  # Audio latch documentation
-└── 📖 cam.md          # CAM memory documentation
+├── 📖 top_FR.md       # Documentation module principal
+├── 📖 brent-kung_FR.md# Documentation additionneur
+├── 📖 vga_FR.md       # Documentation VGA
+├── 📖 1half_latch_FR.md# Documentation latch audio
+└── 📖 cam_FR.md       # Documentation mémoire CAM
 ```
 
 ## 🎯 Applications
 
-- **🎵 Audio** : Class D amplifier with sigma-delta modulator
-- **📺 Video** : VGA pattern generator for testing and display
-- **🧮 Computing** : Fast arithmetic for signal processing
-- **💾 Memory** : Associative cache and lookup tables
+- **🎵 Audio** : Amplificateur classe D avec modulateur sigma-delta
+- **📺 Vidéo** : Générateur de patterns VGA pour tests et affichage
+- **🧮 Calcul** : Arithmétique rapide pour traitement du signal
+- **💾 Mémoire** : Cache associatif et tables de lookup
 
