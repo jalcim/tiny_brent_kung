@@ -17,10 +17,10 @@
 │                        │              ↓                    │
 │  ┌─────────────────────┼──────────────────────────────────┐ │
 │  │                     │           4 MODULES              │ │
-│  │  00: CAM           01: VGA       10: 1HALF    11: BRENT │ │
+│  │  00: BRENT         01: 1HALF     10: VGA      11: CAM   │ │
 │  │ ┌─────┐           ┌─────┐       ┌─────┐      ┌─────┐    │ │
-│  │ │ 📋  │           │ 📺  │       │ 🎵  │      │ ➕  │    │ │
-│  │ │ CAM │           │ VGA │       │1.5bit│     │B-K  │    │ │
+│  │ │ ➕  │           │ 🎵  │       │ 📺  │      │ 📋  │    │ │
+│  │ │B-K  │           │1.5bit│      │ VGA │      │ CAM │    │ │
 │  │ └─────┘           └─────┘       └─────┘      └─────┘    │ │
 │  └─────────────────────┼──────────────────────────────────┘ │
 │                        │              ↑                    │
@@ -50,10 +50,10 @@ ui_in[7:6] = CTRL[1:0]
 ┌─────┬─────────────┬─────────────────────┐
 │CTRL │   MODULE    │     FONCTION        │
 ├─────┼─────────────┼─────────────────────┤
-│ 00  │ 📋 CAM      │ Mémoire associative │
-│ 01  │ 📺 VGA      │ Générateur vidéo    │
-│ 10  │ 🎵 1HALF    │ Latch audio         │
-│ 11  │ ➕ BRENT-K  │ Additionneur        │
+│ 00  │ ➕ BRENT-K  │ Additionneur        │
+│ 01  │ 🎵 1HALF    │ Latch audio         │
+│ 10  │ 📺 VGA      │ Générateur vidéo    │
+│ 11  │ 📋 CAM      │ Mémoire associative │
 └─────┴─────────────┴─────────────────────┘
 ```
 
@@ -72,8 +72,10 @@ ui_in[7:6] = CTRL[1:0]
 
 ## 🔌 Utilisation des Broches
 
-- **`ui_in[7:6]`** : Sélection de module (2 bits réservés au multiplexage)
-- **`ui_in[5:0]` + `uio_in[7:0]`** : Données d'entrée (14 bits disponibles pour les modules)
+- **`ui_in[7:6]`** : Sélection de module  
+  (00=BRENT, 01=1HALF, 10=VGA, 11=CAM)
+- **`ui_in[5:0]` + `uio_in[7:0]`** : Données d'entrée  
+  (14 bits disponibles pour les modules)
 - **`uo_out[7:0]`** : Résultats du module actif
 
 Voir la documentation de chaque module pour les assignations spécifiques.
@@ -114,6 +116,6 @@ Voir la documentation de chaque module pour les assignations spécifiques.
 
 - **🎵 Audio** : Amplificateur classe D avec modulateur sigma-delta
 - **📺 Vidéo** : Générateur de patterns VGA pour tests et affichage
-- **🧮 Calcul** : Arithmétique rapide pour traitement du signal
+- **🧮 Calcul** : Arithmétique rapide pour traitement du signal  
 - **💾 Mémoire** : Cache associatif et tables de lookup
 

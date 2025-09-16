@@ -19,10 +19,10 @@
 │                        │              ↓                    │
 │  ┌─────────────────────┼──────────────────────────────────┐ │
 │  │                     │            4 MODULES             │ │
-│  │  00: CAM           01: VGA       10: 1HALF    11: BRENT │ │
+│  │  00: BRENT         01: 1HALF     10: VGA      11: CAM   │ │
 │  │ ┌─────┐           ┌─────┐       ┌─────┐      ┌─────┐    │ │
-│  │ │ 📋  │           │ 📺  │       │ 🎵  │      │ ➕  │    │ │
-│  │ │ CAM │           │ VGA │       │1.5bit│     │B-K  │    │ │
+│  │ │ ➕  │           │ 🎵  │       │ 📺  │      │ 📋  │    │ │
+│  │ │B-K  │           │1.5bit│      │ VGA │      │ CAM │    │ │
 │  │ └─────┘           └─────┘       └─────┘      └─────┘    │ │
 │  └─────────────────────┼──────────────────────────────────┘ │
 │                        │              ↑                    │
@@ -52,10 +52,10 @@ ui_in[7:6] = CTRL[1:0]
 ┌─────┬─────────────┬─────────────────────┐
 │CTRL │   MODULE    │     FUNCTION        │
 ├─────┼─────────────┼─────────────────────┤
-│ 00  │ 📋 CAM      │ Associative memory  │
-│ 01  │ 📺 VGA      │ Video generator     │
-│ 10  │ 🎵 1HALF    │ Audio latch         │
-│ 11  │ ➕ BRENT-K  │ Adder               │
+│ 00  │ ➕ BRENT-K  │ Adder               │
+│ 01  │ 🎵 1HALF    │ Audio latch         │
+│ 10  │ 📺 VGA      │ Video generator     │
+│ 11  │ 📋 CAM      │ Associative memory  │
 └─────┴─────────────┴─────────────────────┘
 ```
 
@@ -74,8 +74,10 @@ ui_in[7:6] = CTRL[1:0]
 
 ## 🔌 Pin Usage
 
-- **`ui_in[7:6]`** : Module selection (2 bits reserved for multiplexing)
-- **`ui_in[5:0]` + `uio_in[7:0]`** : Data inputs (14 bits available for modules)
+- **`ui_in[7:6]`** : Module selection  
+  (00=BRENT, 01=1HALF, 10=VGA, 11=CAM)
+- **`ui_in[5:0]` + `uio_in[7:0]`** : Data inputs  
+  (14 bits available for modules)
 - **`uo_out[7:0]`** : Results from active module
 
 See individual module documentation for specific pin assignments.
@@ -115,7 +117,7 @@ See individual module documentation for specific pin assignments.
 ## 🎯 Applications
 
 - **🎵 Audio** : Class D amplifier with sigma-delta modulator
-- **📺 Video** : VGA pattern generator for testing and display
+- **📺 Video** : VGA pattern generator for testing and display  
 - **🧮 Computing** : Fast arithmetic for signal processing
 - **💾 Memory** : Associative cache and lookup tables
 

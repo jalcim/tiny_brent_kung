@@ -1,12 +1,16 @@
 # 🎵 1HALF - Latch Audio Sigma-Delta
 
-> **Latch 1.5-bit empêchant la commutation simultanée des transistors**
+> **Latch 1.5-bit pour amplificateurs audio classe-D - évite les court-circuits**
 
 🇺🇸 [English version](1half_latch.md)
 
+## 🎯 Qu'est-ce que Sigma-Delta ?
+
+La modulation Sigma-Delta convertit les signaux audio analogiques en impulsions numériques haute fréquence. Le "1.5-bit" signifie 3 états de sortie possibles au lieu de 4 états normaux (2-bit).
+
 ## 🔌 Broches
 
-### Sélection: `ui_in[7:6] = 10`
+### Sélection: `ui_in[7:6] = 01`
 
 ```
 ┌─────────────────┬─────────┬─────────────────────┐
@@ -20,18 +24,32 @@
 
 ## ⚠️ Logique de Sécurité
 
-Empêche l'état interdit `11` (les deux transistors ON):
-- `00` = Les deux OFF ✅
-- `01` = Transistor N ON ✅  
-- `10` = Transistor P ON ✅
-- `11` = Les deux ON ❌ **BLOQUÉ**
+Empêche l'état interdit `11` (les deux transistors ON = court-circuit):
+- `00` = Les deux OFF (pas de sortie) ✅
+- `01` = Transistor N ON (sortie +V) ✅  
+- `10` = Transistor P ON (sortie -V) ✅
+- `11` = Les deux ON (COURT-CIRCUIT) ❌ **BLOQUÉ**
+
+## 🎵 Exemple Concret
+
+**Amplificateur Audio Classe-D :**
+```
+Signal Audio → Sigma-Delta → Latch 1.5bit → Étage Puissance → Haut-parleur
+     ∿             101010        PWM Sûr       Haute Puissance      🔊
+```
+
+1. **Entrée** : Audio du microphone/DAC
+2. **Modulation** : Conversion en impulsions haute fréq (MHz)
+3. **Sécurité** : Ce latch évite d'endommager les transistors de puissance
+4. **Sortie** : PWM sûr pour commander les bobines du haut-parleur
+5. **Filtrage** : Filtre passe-bas récupère l'audio
 
 ## 🔄 Fonctionnement
 
-4 latches indépendants, chacun avec:
-- Fonctionnement synchronisé à l'horloge
-- Protection état interdit
-- Commutation sûre pour amplificateur classe-D
+4 canaux indépendants pour :
+- **Audio stéréo** (2 canaux)
+- **Multi-canal** (4 canaux mono)
+- **Redondance** (canaux de sauvegarde)
 
 ## 📂 Source
 - Fichier: `src/1half_latch.v:23-43`

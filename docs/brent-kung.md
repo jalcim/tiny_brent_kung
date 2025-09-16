@@ -9,7 +9,7 @@ Adds two 4-bit numbers + carry = 5-bit result in just 3 gate delays!
 
 ## 🔌 Pin Connections
 
-### Selection: Set `ui_in[7:6] = 11`
+### Selection: Set `ui_in[7:6] = 00`
 
 ```
 ┌─────────────────┬─────────┬─────────────────────┐
@@ -77,6 +77,10 @@ Adds two 4-bit numbers + carry = 5-bit result in just 3 gate delays!
 ```
 
 **G** = Generate, **B** = Black (combine)
+
+![Brent-Kung Algorithm Stages](step0_4.png)
+
+![4-bit Implementation](brent4.png)
 
 ## 📂 Source
 - File: `src/brent-kung.v:38-85`

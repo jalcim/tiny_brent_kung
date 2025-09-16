@@ -1,12 +1,18 @@
 # 📋 CAM - Content-Addressable Memory
 
-> **16x8 bit associative memory for fast lookup**
+> **16x8 bit associative memory - search by content, not address**
 
 🇫🇷 [Version française](cam_FR.md)
 
+## 🎯 What is CAM?
+
+Unlike normal RAM where you give an address to get data, CAM works backwards:  
+you give it data and it tells you the address where it's stored.  
+All 16 entries are searched simultaneously in 1 clock cycle.
+
 ## 🔌 Pins
 
-### Selection: `ui_in[7:6] = 00`
+### Selection: `ui_in[7:6] = 11`
 
 ```
 ┌─────────────────┬─────────┬─────────────────────┐
@@ -26,7 +32,7 @@
 ### Write Mode
 ```
 ui_in[5] = 1 (WRITE)
-ui_in[4:0] = address
+ui_in[4:0] = address where to store
 uio_in[7:0] = data to store
 ```
 
@@ -38,11 +44,36 @@ uio_in[7:0] = data to find
 → uo_out[4:0] = address where found
 ```
 
-## 💾 Memory
+## 🏗️ Real-World Examples
 
-- **Capacity**: 16 entries × 8 bits
-- **Search**: Parallel (all entries checked simultaneously)
-- **Speed**: Single cycle lookup
+### Network Router
+```
+Packet arrives → Extract MAC address → CAM lookup → Get output port
+   📦              AA:BB:CC:DD:EE:FF      Found at 3        Port 3
+```
+
+### CPU Cache
+```
+CPU needs data → Check address tag → CAM lookup → Cache hit/miss
+     🖥️              0x1000ABC         Found at 7      Cache HIT
+```
+
+### Translation Table
+```
+Virtual address → CAM search → Physical address
+    0x4000           Found          0x2000ABC
+```
+
+## ⚡ Why CAM is Fast
+
+**Normal RAM**: Address → Data (1 step)
+**CAM**: Data → Address (1 step, but searches ALL entries in parallel)
+
+Perfect for:
+- **Routing tables** (network switches)
+- **Cache tags** (CPU caches) 
+- **Translation** (virtual to physical addresses)
+- **Pattern matching** (security/firewall rules)
 
 ## 📂 Source
 - File: `src/cam.v:1-75`

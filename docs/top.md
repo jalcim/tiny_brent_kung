@@ -25,8 +25,8 @@ The `tt_um_top` module serves as the main entry point and implements a multiplex
 │ uio_out[7:0] │     ┌──────────────┼──┼──┼──┼──────────────┐ │
 │ uio_oe[7:0]  │     │              ↓  ↓  ↓  ↓              │ │
 └──────────────┤     │            00 01 10 11              │ │
-               │     │           CAM VGA 1HALF BRENT        │ │
-               │     │            ↓  ↓   ↓    ↓             │ │
+               │     │          BRENT 1HALF VGA CAM         │ │
+               │     │             ↓   ↓   ↓   ↓            │ │
                │     │          ┌──┴──┴───┴────┴──────────┐ │ │
                │     │          │      MULTIPLEXER        │ │ │
                │     │          │        4-TO-1           │ │ │
@@ -43,7 +43,7 @@ The `tt_um_top` module serves as the main entry point and implements a multiplex
   - `ui_in[7:6]` : Control bits (module selection)
   - `ui_in[5:0]` : Data input (routed to selected module)
 - **`uio_in[7:0]`** : Bidirectional input pins (used as input)
-- **`clk`** : System clock (50MHz max)
+- **`clk`** : System clock (66MHz max)
 - **`rst_n`** : Active-low reset
 - **`ena`** : Enable signal (always 1, can be ignored)
 
@@ -140,39 +140,22 @@ brent_kung_cin brent_inst(
 ## Implementation Details
 
 ### Resource Usage
-- **Logic Elements**: ~200 LUTs
+- **Logic Gates**: ~200 standard cells
 - **Memory**: 16x8 bit RAM (CAM module)
-- **Clock Frequency**: Up to 50MHz
+- **Clock Frequency**: Up to 66MHz
 - **Power**: Optimized for low power consumption
 
 ### Timing Constraints
-- Setup time: Meets 20ns clock period
+- Setup time: Meets 15ns clock period
 - Hold time: Adequate margins maintained
 - Critical path: Through multiplexer logic
 
-## Usage Examples
+## Usage
 
-### Selecting CAM Module
-```verilog
-// Set control to select CAM
-assign ui_in[7:6] = 2'b00;
-
-// Write operation
-assign ui_in[5:0] = {1'b1, addr[4:0]};  // write=1, address
-assign uio_in[7:0] = write_data[7:0];   // data to write
-
-// Read operation
-assign ui_in[5:0] = {1'b0, 5'b0};       // write=0
-assign uio_in[7:0] = search_data[7:0];  // data to search
-// Result in uo_out[7:0] = {2'b0, found, addr[4:0]}
-```
-
-### Selecting VGA Module
-```verilog
-// Set control to select VGA
-assign ui_in[7:6] = 2'b01;
-// VGA runs autonomously, outputs video signals on uo_out[7:0]
-```
+To use a specific module:
+1. Set `ui_in[7:6]` according to desired module
+2. Refer to individual module documentation for pin connections
+3. Read result from `uo_out[7:0]`
 
 ## File Location
 - **Source**: `src/top.v:8-115`
@@ -181,4 +164,4 @@ assign ui_in[7:6] = 2'b01;
 ## Testing
 - Testbench validates multiplexer switching
 - Each module tested individually and in combination
-- Timing verification at 50MHz operation
+- Timing verification at 66MHz operation

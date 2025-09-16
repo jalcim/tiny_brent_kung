@@ -25,8 +25,8 @@ Le module `tt_um_top` sert de point d'entrée principal et implémente un systè
 │ uio_out[7:0] │     ┌──────────────┼──┼──┼──┼──────────────┐ │
 │ uio_oe[7:0]  │     │              ↓  ↓  ↓  ↓              │ │
 └──────────────┤     │            00 01 10 11              │ │
-               │     │           CAM VGA 1HALF BRENT        │ │
-               │     │            ↓  ↓   ↓    ↓             │ │
+               │     │          BRENT 1HALF VGA CAM         │ │
+               │     │             ↓   ↓   ↓   ↓            │ │
                │     │          ┌──┴──┴───┴────┴──────────┐ │ │
                │     │          │     MULTIPLEXEUR        │ │ │
                │     │          │       4-VERS-1          │ │ │
@@ -140,7 +140,7 @@ brent_kung_cin brent_inst(
 ## Détails d'Implémentation
 
 ### Utilisation des Ressources
-- **Éléments Logiques** : ~200 LUTs
+- **Portes Logiques** : ~200 cellules standard
 - **Mémoire** : 16x8 bit RAM (module CAM)
 - **Fréquence d'Horloge** : Jusqu'à 66MHz
 - **Consommation** : Optimisée pour faible consommation
@@ -150,29 +150,12 @@ brent_kung_cin brent_inst(
 - Temps de hold : Marges adéquates maintenues
 - Chemin critique : À travers la logique du multiplexeur
 
-## Exemples d'Utilisation
+## Utilisation
 
-### Sélection du Module CAM
-```verilog
-// Régler le contrôle pour sélectionner CAM
-assign ui_in[7:6] = 2'b00;
-
-// Opération d'écriture
-assign ui_in[5:0] = {1'b1, addr[4:0]};  // write=1, adresse
-assign uio_in[7:0] = write_data[7:0];   // données à écrire
-
-// Opération de lecture
-assign ui_in[5:0] = {1'b0, 5'b0};       // write=0
-assign uio_in[7:0] = search_data[7:0];  // données à rechercher
-// Résultat dans uo_out[7:0] = {2'b0, found, addr[4:0]}
-```
-
-### Sélection du Module VGA
-```verilog
-// Régler le contrôle pour sélectionner VGA
-assign ui_in[7:6] = 2'b01;
-// VGA fonctionne de manière autonome, sort les signaux vidéo sur uo_out[7:0]
-```
+Pour utiliser un module spécifique :
+1. Configurer `ui_in[7:6]` selon le module désiré
+2. Consulter la documentation du module pour les connexions de broches
+3. Lire le résultat sur `uo_out[7:0]`
 
 ## Emplacement du Fichier
 - **Source** : `src/top.v:8-115`
