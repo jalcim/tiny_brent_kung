@@ -1,3 +1,5 @@
+[🏠 Retour à l'Accueil](../README_FR.md)
+
 # 📺 VGA - Générateur de Signal Vidéo
 
 > **VGA 640x480 avec pattern animé - génère des signaux vidéo analogiques classiques**
@@ -69,3 +71,6 @@ B = {moving_x[7], pix_y[5]}  // Bleu plus lent horizontal + vertical
 
 ## 📂 Source
 - Fichier: `src/vga.v:8-126`
+
+---
+[🏠 Retour à l'Accueil](../README_FR.md)

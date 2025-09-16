@@ -1,3 +1,5 @@
+[🏠 Retour à l'Accueil](../README_FR.md)
+
 # 🔀 Module TOP - Contrôleur Principal
 
 > **Module principal implémentant l'accès multiplexé à 4 unités de traitement spécialisées**
@@ -191,3 +193,6 @@ Pour utiliser un module spécifique :
 ## Tests
 - Testbench valide la commutation du multiplexeur
 - Chaque module testé individuellement et en combinaison
+
+---
+[🏠 Retour à l'Accueil](../README_FR.md)

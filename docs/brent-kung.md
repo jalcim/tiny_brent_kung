@@ -1,3 +1,5 @@
+[🏠 Back to Main](../README.md)
+
 # ➕ BRENT-KUNG - Fast 4-bit Adder
 
 > **Ultra-fast parallel adder • 3x faster than ripple carry**
@@ -97,3 +99,6 @@ flowchart TD
 ## 📂 Source
 - File: `src/brent-kung.v:38-85`
 - Self-contained (no dependencies)
+
+---
+[🏠 Back to Main](../README.md)

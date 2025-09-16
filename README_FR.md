@@ -1,3 +1,5 @@
+![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+
 # 🔀 Unité de Traitement Numérique Multiplexée
 
 > **Un système numérique multiplexé avec 4 unités de traitement spécialisées**

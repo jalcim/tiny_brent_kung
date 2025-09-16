@@ -1,3 +1,5 @@
+[🏠 Retour à l'Accueil](../README_FR.md)
+
 # ➕ BRENT-KUNG - Additionneur 4-bit
 
 > **Additionneur parallèle ultra-rapide**
@@ -92,3 +94,6 @@ flowchart TD
 
 ## 📂 Source
 - Fichier: `src/brent-kung.v:38-85`
+
+---
+[🏠 Retour à l'Accueil](../README_FR.md)

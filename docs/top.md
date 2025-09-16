@@ -1,3 +1,5 @@
+[🏠 Back to Main](../README.md)
+
 # 🔀 TOP Module - Main Controller
 
 > **Main module implementing multiplexed access to 4 specialized processing units**
@@ -191,3 +193,6 @@ To use a specific module:
 ## Testing
 - Testbench validates multiplexer switching
 - Each module tested individually and in combination
+
+---
+[🏠 Back to Main](../README.md)

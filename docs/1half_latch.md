@@ -1,3 +1,5 @@
+[🏠 Back to Main](../README.md)
+
 # 🎵 1HALF - Sigma-Delta Audio Latch
 
 > **1.5-bit latch for Class-D audio amplifiers - prevents transistor shoot-through**
@@ -53,3 +55,6 @@ Audio Signal → Sigma-Delta → 1.5bit Latch → Power Stage → Speaker
 
 ## 📂 Source
 - File: `src/1half_latch.v:23-43`
+
+---
+[🏠 Back to Main](../README.md)
