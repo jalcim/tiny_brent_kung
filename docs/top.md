@@ -10,30 +10,58 @@ The `tt_um_top` module serves as the main entry point and implements a multiplex
 
 ## Block Diagram
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                      tt_um_top                            │
-├──────────────┬─────────────────────────────────────────────┤
-│   INPUTS     │                                             │
-│ ui_in[7:0]   │  ┌─────────┐    ┌──────────────────────────┐ │
-│ uio_in[7:0]  │  │ CTRL    │    │                          │ │
-│ clk, rst_n   │  │ [7:6]   │    │      DEMULTIPLEXER       │ │
-│ ena          │  └─────────┘    │        4-WAY             │ │
-├──────────────┤                 │                          │ │
-│   OUTPUTS    │                 └──┬──┬──┬──┬──────────────┘ │
-│ uo_out[7:0]  │                    │  │  │  │                │
-│ uio_out[7:0] │     ┌──────────────┼──┼──┼──┼──────────────┐ │
-│ uio_oe[7:0]  │     │              ↓  ↓  ↓  ↓              │ │
-└──────────────┤     │            00 01 10 11              │ │
-               │     │          BRENT 1HALF VGA CAM         │ │
-               │     │             ↓   ↓   ↓   ↓            │ │
-               │     │          ┌──┴──┴───┴────┴──────────┐ │ │
-               │     │          │      MULTIPLEXER        │ │ │
-               │     │          │        4-TO-1           │ │ │
-               │     │          └─────────────────────────┘ │ │
-               │     └──────────────────┼──────────────────┘ │
-               │                        ↓                    │
-               └────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph TOP ["tt_um_top"]
+        subgraph INPUTS
+            UI["ui_in[7:0]"]
+            UIO["uio_in[7:0]"]
+            CLK["clk, rst_n"]
+            ENA["ena"]
+        end
+        
+        subgraph CONTROL
+            CTRL["CTRL[7:6]"]
+        end
+        
+        subgraph PROCESSING
+            DEMUX["DEMULTIPLEXER<br/>4-WAY"]
+            
+            subgraph MODULES ["4 MODULES"]
+                BRENT["BRENT<br/>00"]
+                HALF["1HALF<br/>01"] 
+                VGA_MOD["VGA<br/>10"]
+                CAM["CAM<br/>11"]
+            end
+            
+            MUX["MULTIPLEXER<br/>4-TO-1"]
+        end
+        
+        subgraph OUTPUTS
+            UO["uo_out[7:0]"]
+            UIO_OUT["uio_out[7:0]"]
+            UIO_OE["uio_oe[7:0]"]
+        end
+    end
+    
+    UI --> CTRL
+    UI --> DEMUX
+    UIO --> DEMUX
+    CLK --> MODULES
+    ENA --> MODULES
+    
+    CTRL --> DEMUX
+    DEMUX --> BRENT
+    DEMUX --> HALF
+    DEMUX --> VGA_MOD
+    DEMUX --> CAM
+    
+    BRENT --> MUX
+    HALF --> MUX
+    VGA_MOD --> MUX
+    CAM --> MUX
+    
+    MUX --> UO
 ```
 
 ## Pin Description
@@ -145,9 +173,8 @@ brent_kung_cin brent_inst(
 - **Clock Frequency**: Up to 66MHz
 - **Power**: Optimized for low power consumption
 
-### Timing Constraints
-- Setup time: Meets 15ns clock period
-- Hold time: Adequate margins maintained
+### Architecture
+- Clock period: 15ns (66MHz)
 - Critical path: Through multiplexer logic
 
 ## Usage
@@ -164,4 +191,3 @@ To use a specific module:
 ## Testing
 - Testbench validates multiplexer switching
 - Each module tested individually and in combination
-- Timing verification at 66MHz operation

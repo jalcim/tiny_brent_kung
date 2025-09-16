@@ -56,24 +56,36 @@ Adds two 4-bit numbers + carry = 5-bit result in just 3 gate delays!
 
 ## 🏗️ How it Works
 
-```
-     A₃B₃   A₂B₂   A₁B₁   A₀B₀
-       │     │     │     │
-     ┌─▼─┐ ┌─▼─┐ ┌─▼─┐ ┌─▼─┐    Stage 0
-     │ G │ │ G │ │ G │ │ G │    Generate P,G
-     └─┬─┘ └─┬─┘ └─┬─┘ └─┬─┘
-       └─┬─────┬─────┬─────┘      Stage 1  
-       ┌─▼─┐ ┌─▼─┐ ┌─▼─┐          Black cells
-       │ B │ │ B │ │ B │
-       └─┬─┘ └─┬─┘ └─┬─┘
-         └─┬─────┬───┘            Stage 2
-         ┌─▼─┐ ┌─▼─┐              More black
-         │ B │ │ G │
-         └─┬─┘ └─┬─┘
-           └─┬───┘                Stage 3
-           ┌─▼─┐                  Final carry
-           │ G │
-           └───┘
+```mermaid
+flowchart TD
+    subgraph Stage0 ["Stage 0: Generate P,G"]
+        A3B3["A₃B₃"] --> G3["G"]
+        A2B2["A₂B₂"] --> G2["G"]
+        A1B1["A₁B₁"] --> G1["G"]
+        A0B0["A₀B₀"] --> G0["G"]
+    end
+    
+    subgraph Stage1 ["Stage 1: Black cells"]
+        G3 --> B31["B"]
+        G2 --> B31
+        G2 --> B21["B"]
+        G1 --> B21
+        G1 --> B10["B"]
+        G0 --> B10
+    end
+    
+    subgraph Stage2 ["Stage 2: More black"]
+        B31 --> B32["B"]
+        B21 --> B32
+        B21 --> G2S2["G"]
+    end
+    
+    subgraph Stage3 ["Stage 3: Final carry"]
+        B32 --> GFINAL["G"]
+        G2S2 --> GFINAL
+    end
+    
+    GFINAL --> CARRY["Final Carry Output"]
 ```
 
 **G** = Generate, **B** = Black (combine)

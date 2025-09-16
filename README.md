@@ -6,32 +6,35 @@
 
 🇫🇷 [Version française](README_FR.md)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    TinyTapeout Interface                   │
-├─────────────────────────┬───────────────────────────────────┤
-│ ui_in[7:6] (CTRL)      │ uio_in[7:0] + ui_in[5:0] (DATA)  │
-│        ↓               │                ↓                  │
-│  ┌─────────────┐       │     ┌─────────────────┐           │
-│  │ MUX CONTROL │───────┼────→│   DEMULTIPLEXER │           │
-│  └─────────────┘       │     └─────────────────┘           │
-│                        │              │                    │
-│                        │              ↓                    │
-│  ┌─────────────────────┼──────────────────────────────────┐ │
-│  │                     │            4 MODULES             │ │
-│  │  00: BRENT         01: 1HALF     10: VGA      11: CAM   │ │
-│  │ ┌─────┐           ┌─────┐       ┌─────┐      ┌─────┐    │ │
-│  │ │ ➕  │           │ 🎵  │       │ 📺  │      │ 📋  │    │ │
-│  │ │B-K  │           │1.5bit│      │ VGA │      │ CAM │    │ │
-│  │ └─────┘           └─────┘       └─────┘      └─────┘    │ │
-│  └─────────────────────┼──────────────────────────────────┘ │
-│                        │              ↑                    │
-│                        │     ┌─────────────────┐           │
-│                        │     │   MULTIPLEXER   │           │
-│                        │     └─────────────────┘           │
-│                        │              ↓                    │
-│                        │        uo_out[7:0]                │
-└─────────────────────────┴───────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph TT ["TinyTapeout Interface"]
+        CTRL["ui_in[7:6]<br/>CTRL"]
+        DATA["ui_in[5:0] + uio_in[7:0]<br/>DATA"]
+    end
+    
+    CTRL --> MUX_CTRL["MUX CONTROL"]
+    DATA --> DEMUX["DEMULTIPLEXER<br/>4-WAY"]
+    
+    subgraph MODULES ["4 MODULES"]
+        BRENT["➕<br/>BRENT-K<br/>00"]
+        HALF["🎵<br/>1.5bit<br/>01"]
+        VGA["📺<br/>VGA<br/>10"]
+        CAM["📋<br/>CAM<br/>11"]
+    end
+    
+    MUX_CTRL --> DEMUX
+    DEMUX --> BRENT
+    DEMUX --> HALF
+    DEMUX --> VGA
+    DEMUX --> CAM
+    
+    BRENT --> MUX["MULTIPLEXER<br/>4-TO-1"]
+    HALF --> MUX
+    VGA --> MUX
+    CAM --> MUX
+    
+    MUX --> OUTPUT["uo_out[7:0]"]
 ```
 
 ## 📋 Module Documentation
@@ -60,16 +63,30 @@ ui_in[7:6] = CTRL[1:0]
 ```
 
 ### Data Routing
-```
-┌──────────────┬─────────────────┬─────────────────┐
-│   INPUTS     │   MULTIPLEXING  │    OUTPUTS      │
-├──────────────┼─────────────────┼─────────────────┤
-│ ui_in[5:0]   │        │        │                 │
-│              │   DEMUX 4:1     │   uo_out[7:0]   │
-│ uio_in[7:0]  │        │        │                 │
-│              │        ↓        │        ↑        │
-│ clk, rst_n   │   ACTIVE MODULE │    MUX 4:1      │
-└──────────────┴─────────────────┴─────────────────┘
+```mermaid
+flowchart LR
+    subgraph INPUTS
+        UI["ui_in[5:0]"]
+        UIO["uio_in[7:0]"]
+        CLK["clk, rst_n"]
+    end
+    
+    subgraph MULTIPLEXING
+        DEMUX_BLOCK["DEMUX 4:1"]
+        ACTIVE["ACTIVE MODULE"]
+        MUX_BLOCK["MUX 4:1"]
+    end
+    
+    subgraph OUTPUTS
+        OUT["uo_out[7:0]"]
+    end
+    
+    UI --> DEMUX_BLOCK
+    UIO --> DEMUX_BLOCK
+    CLK --> ACTIVE
+    DEMUX_BLOCK --> ACTIVE
+    ACTIVE --> MUX_BLOCK
+    MUX_BLOCK --> OUT
 ```
 
 ## 🔌 Pin Usage
