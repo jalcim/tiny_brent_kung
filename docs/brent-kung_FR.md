@@ -43,19 +43,19 @@
 
 ## 🏗️ Fonctionnement
 
-### Structure de l'Algorithme
-L'algorithme Brent-Kung utilise une structure arborescente pour calculer les retenues en parallèle sur plusieurs étapes :
-
-![Étapes Algorithme Brent-Kung](step0_4.png)
-
-*Calcul de retenues parallèles en 4 étapes montrant la propagation dans la structure arborescente*
-
-### Implémentation 4-bit
-Cette implémentation spécifique montre la disposition complète du circuit pour l'addition 4-bit :
+### Implémentation Complète 4-bit
+Circuit complet montrant tous les composants et étapes :
 
 ![Implémentation 4-bit](brent4.png)
 
 *Circuit complet de l'additionneur Brent-Kung 4-bit avec toutes les étapes et interconnexions*
+
+### Structure Arborescente de l'Algorithme
+Détail du composant step0_4 utilisé dans le circuit ci-dessus :
+
+![Étapes Algorithme Brent-Kung](step0_4.png)
+
+*Structure arborescente à 4 étapes montrant la logique centrale de l'algorithme*
 
 ## 📂 Source
 - Fichier: `src/brent-kung.v:38-85`

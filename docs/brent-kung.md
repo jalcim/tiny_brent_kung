@@ -46,19 +46,19 @@ Adds two 4-bit numbers + carry = 5-bit result in just 3 gate delays!
 
 ## 🏗️ How it Works
 
-### Algorithm Structure
-The Brent-Kung algorithm uses a tree structure to compute carries in parallel across multiple stages:
-
-![Brent-Kung Algorithm Stages](step0_4.png)
-
-*4-stage parallel carry computation showing how carries propagate through the tree structure*
-
-### 4-bit Implementation  
-This specific implementation shows the complete circuit layout for 4-bit addition:
+### Complete 4-bit Implementation
+Full circuit showing all components and stages:
 
 ![4-bit Implementation](brent4.png)
 
 *Complete 4-bit Brent-Kung adder circuit with all stages and interconnections*
+
+### Algorithm Tree Structure
+Detail of the step0_4 component used in the circuit above:
+
+![Brent-Kung Algorithm Stages](step0_4.png)
+
+*4-stage parallel carry tree structure showing the algorithm's core logic*
 
 ## 📂 Source
 - File: `src/brent-kung.v:38-85`
