@@ -1,3 +1,5 @@
+[🏠 Back to Main](../README.md)
+
 # 📋 CAM - Content-Addressable Memory
 
 > **16x8 bit associative memory - search by content, not address**
@@ -77,3 +79,6 @@ Perfect for:
 
 ## 📂 Source
 - File: `src/cam.v:1-75`
+
+---
+[🏠 Back to Main](../README.md)

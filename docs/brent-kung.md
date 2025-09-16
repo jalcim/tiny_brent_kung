@@ -1,3 +1,5 @@
+[🏠 Back to Main](../README.md)
+
 # ➕ BRENT-KUNG - Fast 4-bit Adder
 
 > **Ultra-fast parallel adder • 3x faster than ripple carry**
@@ -41,47 +43,26 @@ Adds two 4-bit numbers + carry = 5-bit result in just 3 gate delays!
                  uo_out[4:0] = 10001 (17)
 ```
 
-## ⚡ Performance
-
-```
-┌──────────────┬─────────────┬─────────────┐
-│    METRIC    │ RIPPLE CARRY│ BRENT-KUNG  │
-├──────────────┼─────────────┼─────────────┤
-│ 🕐 Speed     │ 4 delays    │ 3 delays    │
-│ 📐 Size      │ Small       │ Medium      │
-│ 🔋 Power     │ Low         │ Medium      │
-│ 🎯 Best for  │ Area        │ Speed       │
-└──────────────┴─────────────┴─────────────┘
-```
 
 ## 🏗️ How it Works
 
-```
-     A₃B₃   A₂B₂   A₁B₁   A₀B₀
-       │     │     │     │
-     ┌─▼─┐ ┌─▼─┐ ┌─▼─┐ ┌─▼─┐    Stage 0
-     │ G │ │ G │ │ G │ │ G │    Generate P,G
-     └─┬─┘ └─┬─┘ └─┬─┘ └─┬─┘
-       └─┬─────┬─────┬─────┘      Stage 1  
-       ┌─▼─┐ ┌─▼─┐ ┌─▼─┐          Black cells
-       │ B │ │ B │ │ B │
-       └─┬─┘ └─┬─┘ └─┬─┘
-         └─┬─────┬───┘            Stage 2
-         ┌─▼─┐ ┌─▼─┐              More black
-         │ B │ │ G │
-         └─┬─┘ └─┬─┘
-           └─┬───┘                Stage 3
-           ┌─▼─┐                  Final carry
-           │ G │
-           └───┘
-```
+### Complete 4-bit Implementation
+Full circuit showing all components and stages:
 
-**G** = Generate, **B** = Black (combine)
+![4-bit Implementation](brent4.png)
+
+*Complete 4-bit Brent-Kung adder circuit with all stages and interconnections*
+
+### Algorithm Tree Structure
+Detail of the step0_4 component used in the circuit above:
 
 ![Brent-Kung Algorithm Stages](step0_4.png)
 
-![4-bit Implementation](brent4.png)
+*4-stage parallel carry tree structure showing the algorithm's core logic*
 
 ## 📂 Source
 - File: `src/brent-kung.v:38-85`
 - Self-contained (no dependencies)
+
+---
+[🏠 Back to Main](../README.md)

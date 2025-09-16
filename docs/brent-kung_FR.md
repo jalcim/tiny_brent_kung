@@ -1,3 +1,5 @@
+[🏠 Retour à l'Accueil](../README_FR.md)
+
 # ➕ BRENT-KUNG - Additionneur 4-bit
 
 > **Additionneur parallèle ultra-rapide**
@@ -38,23 +40,25 @@
                  uo_out[4:0] = 10001 (17)
 ```
 
-## ⚡ Performance
-
-```
-┌──────────────┬─────────────┬─────────────┐
-│   MÉTRIQUE   │ RIPPLE CARRY│ BRENT-KUNG  │
-├──────────────┼─────────────┼─────────────┤
-│ 🕐 Vitesse   │ 4 délais    │ 3 délais    │
-│ 📐 Taille    │ Petit       │ Moyen       │
-│ 🔋 Conso     │ Faible      │ Moyenne     │
-└──────────────┴─────────────┴─────────────┘
-```
 
 ## 🏗️ Fonctionnement
 
-![Étapes Algorithme Brent-Kung](step0_4.png)
+### Implémentation Complète 4-bit
+Circuit complet montrant tous les composants et étapes :
 
 ![Implémentation 4-bit](brent4.png)
 
+*Circuit complet de l'additionneur Brent-Kung 4-bit avec toutes les étapes et interconnexions*
+
+### Structure Arborescente de l'Algorithme
+Détail du composant step0_4 utilisé dans le circuit ci-dessus :
+
+![Étapes Algorithme Brent-Kung](step0_4.png)
+
+*Structure arborescente à 4 étapes montrant la logique centrale de l'algorithme*
+
 ## 📂 Source
 - Fichier: `src/brent-kung.v:38-85`
+
+---
+[🏠 Retour à l'Accueil](../README_FR.md)

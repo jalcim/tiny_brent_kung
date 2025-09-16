@@ -1,3 +1,5 @@
+[🏠 Retour à l'Accueil](../README_FR.md)
+
 # 🎵 1HALF - Latch Audio Sigma-Delta
 
 > **Latch 1.5-bit pour amplificateurs audio classe-D - évite les court-circuits**
@@ -53,3 +55,6 @@ Signal Audio → Sigma-Delta → Latch 1.5bit → Étage Puissance → Haut-parl
 
 ## 📂 Source
 - Fichier: `src/1half_latch.v:23-43`
+
+---
+[🏠 Retour à l'Accueil](../README_FR.md)

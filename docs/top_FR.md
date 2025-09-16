@@ -1,3 +1,5 @@
+[🏠 Retour à l'Accueil](../README_FR.md)
+
 # 🔀 Module TOP - Contrôleur Principal
 
 > **Module principal implémentant l'accès multiplexé à 4 unités de traitement spécialisées**
@@ -10,30 +12,58 @@ Le module `tt_um_top` sert de point d'entrée principal et implémente un systè
 
 ## Diagramme de Blocs
 
-```
-┌────────────────────────────────────────────────────────────┐
-│                      tt_um_top                            │
-├──────────────┬─────────────────────────────────────────────┤
-│   ENTRÉES    │                                             │
-│ ui_in[7:0]   │  ┌─────────┐    ┌──────────────────────────┐ │
-│ uio_in[7:0]  │  │ CTRL    │    │                          │ │
-│ clk, rst_n   │  │ [7:6]   │    │    DÉMULTIPLEXEUR       │ │
-│ ena          │  └─────────┘    │        4-VOIES           │ │
-├──────────────┤                 │                          │ │
-│   SORTIES    │                 └──┬──┬──┬──┬──────────────┘ │
-│ uo_out[7:0]  │                    │  │  │  │                │
-│ uio_out[7:0] │     ┌──────────────┼──┼──┼──┼──────────────┐ │
-│ uio_oe[7:0]  │     │              ↓  ↓  ↓  ↓              │ │
-└──────────────┤     │            00 01 10 11              │ │
-               │     │          BRENT 1HALF VGA CAM         │ │
-               │     │             ↓   ↓   ↓   ↓            │ │
-               │     │          ┌──┴──┴───┴────┴──────────┐ │ │
-               │     │          │     MULTIPLEXEUR        │ │ │
-               │     │          │       4-VERS-1          │ │ │
-               │     │          └─────────────────────────┘ │ │
-               │     └──────────────────┼──────────────────┘ │
-               │                        ↓                    │
-               └────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph TOP ["tt_um_top"]
+        subgraph ENTREES ["ENTRÉES"]
+            UI["ui_in[7:0]"]
+            UIO["uio_in[7:0]"]
+            CLK["clk, rst_n"]
+            ENA["ena"]
+        end
+        
+        subgraph CONTROLE ["CONTRÔLE"]
+            CTRL["CTRL[7:6]"]
+        end
+        
+        subgraph TRAITEMENT ["TRAITEMENT"]
+            DEMUX["DÉMULTIPLEXEUR<br/>4-VOIES"]
+            
+            subgraph MODULES ["4 MODULES"]
+                BRENT["BRENT<br/>00"]
+                HALF["1HALF<br/>01"] 
+                VGA_MOD["VGA<br/>10"]
+                CAM["CAM<br/>11"]
+            end
+            
+            MUX["MULTIPLEXEUR<br/>4-VERS-1"]
+        end
+        
+        subgraph SORTIES
+            UO["uo_out[7:0]"]
+            UIO_OUT["uio_out[7:0]"]
+            UIO_OE["uio_oe[7:0]"]
+        end
+    end
+    
+    UI --> CTRL
+    UI --> DEMUX
+    UIO --> DEMUX
+    CLK --> MODULES
+    ENA --> MODULES
+    
+    CTRL --> DEMUX
+    DEMUX --> BRENT
+    DEMUX --> HALF
+    DEMUX --> VGA_MOD
+    DEMUX --> CAM
+    
+    BRENT --> MUX
+    HALF --> MUX
+    VGA_MOD --> MUX
+    CAM --> MUX
+    
+    MUX --> UO
 ```
 
 ## Description des Broches
@@ -137,18 +167,6 @@ brent_kung_cin brent_inst(
 );
 ```
 
-## Détails d'Implémentation
-
-### Utilisation des Ressources
-- **Portes Logiques** : ~200 cellules standard
-- **Mémoire** : 16x8 bit RAM (module CAM)
-- **Fréquence d'Horloge** : Jusqu'à 66MHz
-- **Consommation** : Optimisée pour faible consommation
-
-### Contraintes de Temporisation
-- Temps de setup : Respecte la période d'horloge de 15ns
-- Temps de hold : Marges adéquates maintenues
-- Chemin critique : À travers la logique du multiplexeur
 
 ## Utilisation
 
@@ -164,4 +182,6 @@ Pour utiliser un module spécifique :
 ## Tests
 - Testbench valide la commutation du multiplexeur
 - Chaque module testé individuellement et en combinaison
-- Vérification temporelle pour fonctionnement à 66MHz
+
+---
+[🏠 Retour à l'Accueil](../README_FR.md)

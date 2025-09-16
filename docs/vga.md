@@ -1,3 +1,5 @@
+[🏠 Back to Main](../README.md)
+
 # 📺 VGA - Video Signal Generator
 
 > **640x480 VGA with animated pattern - generates classic analog video signals**
@@ -68,3 +70,6 @@ B = {moving_x[7], pix_y[5]}  // Blue slower horizontal + vertical
 
 ## 📂 Source
 - File: `src/vga.v:8-126`
+
+---
+[🏠 Back to Main](../README.md)

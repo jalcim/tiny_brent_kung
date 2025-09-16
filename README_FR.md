@@ -1,35 +1,40 @@
+![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+
 # 🔀 Unité de Traitement Numérique Multiplexée
 
 > **Un système numérique multiplexé avec 4 unités de traitement spécialisées**
 
 🇺🇸 [English version](README.md)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Interface TinyTapeout                   │
-├─────────────────────────┬───────────────────────────────────┤
-│ ui_in[7:6] (CTRL)      │ uio_in[7:0] + ui_in[5:0] (DATA)  │
-│        ↓               │                ↓                  │
-│  ┌─────────────┐       │     ┌─────────────────┐           │
-│  │ CONTRÔLE MUX│───────┼────→│  DÉMULTIPLEXEUR │           │
-│  └─────────────┘       │     └─────────────────┘           │
-│                        │              │                    │
-│                        │              ↓                    │
-│  ┌─────────────────────┼──────────────────────────────────┐ │
-│  │                     │           4 MODULES              │ │
-│  │  00: BRENT         01: 1HALF     10: VGA      11: CAM   │ │
-│  │ ┌─────┐           ┌─────┐       ┌─────┐      ┌─────┐    │ │
-│  │ │ ➕  │           │ 🎵  │       │ 📺  │      │ 📋  │    │ │
-│  │ │B-K  │           │1.5bit│      │ VGA │      │ CAM │    │ │
-│  │ └─────┘           └─────┘       └─────┘      └─────┘    │ │
-│  └─────────────────────┼──────────────────────────────────┘ │
-│                        │              ↑                    │
-│                        │     ┌─────────────────┐           │
-│                        │     │  MULTIPLEXEUR   │           │
-│                        │     └─────────────────┘           │
-│                        │              ↓                    │
-│                        │        uo_out[7:0]                │
-└─────────────────────────┴───────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph TT ["Interface TinyTapeout"]
+        CTRL["ui_in[7:6]<br/>CTRL"]
+        DATA["ui_in[5:0] + uio_in[7:0]<br/>DATA"]
+    end
+    
+    CTRL --> MUX_CTRL["CONTRÔLE MUX"]
+    DATA --> DEMUX["DÉMULTIPLEXEUR<br/>4-VOIES"]
+    
+    subgraph MODULES ["4 MODULES"]
+        BRENT["➕<br/>BRENT-K<br/>00"]
+        HALF["🎵<br/>1.5bit<br/>01"]
+        VGA["📺<br/>VGA<br/>10"]
+        CAM["📋<br/>CAM<br/>11"]
+    end
+    
+    MUX_CTRL --> DEMUX
+    DEMUX --> BRENT
+    DEMUX --> HALF
+    DEMUX --> VGA
+    DEMUX --> CAM
+    
+    BRENT --> MUX["MULTIPLEXEUR<br/>4-VERS-1"]
+    HALF --> MUX
+    VGA --> MUX
+    CAM --> MUX
+    
+    MUX --> OUTPUT["uo_out[7:0]"]
 ```
 
 ## 📋 Documentation des Modules
@@ -58,16 +63,30 @@ ui_in[7:6] = CTRL[1:0]
 ```
 
 ### Routage des Données
-```
-┌──────────────┬─────────────────┬─────────────────┐
-│   ENTRÉES    │   MULTIPLEXAGE  │    SORTIES      │
-├──────────────┼─────────────────┼─────────────────┤
-│ ui_in[5:0]   │        │        │                 │
-│              │   DEMUX 4:1     │   uo_out[7:0]   │
-│ uio_in[7:0]  │        │        │                 │
-│              │        ↓        │        ↑        │
-│ clk, rst_n   │   MODULE ACTIF  │    MUX 4:1      │
-└──────────────┴─────────────────┴─────────────────┘
+```mermaid
+flowchart LR
+    subgraph ENTREES ["ENTRÉES"]
+        UI["ui_in[5:0]"]
+        UIO["uio_in[7:0]"]
+        CLK["clk, rst_n"]
+    end
+    
+    subgraph MULTIPLEXAGE
+        DEMUX_BLOCK["DEMUX 4:1"]
+        ACTIF["MODULE ACTIF"]
+        MUX_BLOCK["MUX 4:1"]
+    end
+    
+    subgraph SORTIES
+        OUT["uo_out[7:0]"]
+    end
+    
+    UI --> DEMUX_BLOCK
+    UIO --> DEMUX_BLOCK
+    CLK --> ACTIF
+    DEMUX_BLOCK --> ACTIF
+    ACTIF --> MUX_BLOCK
+    MUX_BLOCK --> OUT
 ```
 
 ## 🔌 Utilisation des Broches
@@ -80,17 +99,6 @@ ui_in[7:6] = CTRL[1:0]
 
 Voir la documentation de chaque module pour les assignations spécifiques.
 
-## 📊 Spécifications
-
-```
-┌─────────────────┬─────────────────────────┐
-│ FRÉQUENCE       │ 66 MHz                  │
-│ ENTRÉES DONNÉES │ 14 bits disponibles     │
-│ CONTRÔLE        │ 2 bits (multiplexage)   │
-│ SORTIES         │ 8 bits                  │
-│ MODULES         │ 4 unités spécialisées  │
-└─────────────────┴─────────────────────────┘
-```
 
 ## 🏗️ Architecture du Projet
 
